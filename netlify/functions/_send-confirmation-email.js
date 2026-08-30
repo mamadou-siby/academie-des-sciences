@@ -45,32 +45,44 @@ async function sendConfirmationEmail(supabase, commandeId) {
     '',
     'Notre équipe revient vers vous prochainement pour finaliser les créneaux.',
     '',
-    "L'Académie des Sciences"
+    "Aven & Co — L'Académie des Sciences"
   ].filter(Boolean);
 
   const emailBody = lines.join('\n');
 
-  // ---- Exemple d'intégration avec Resend (à décommenter une fois la clé API ajoutée) ----
-  // const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  // if (RESEND_API_KEY) {
-  //   await fetch('https://api.resend.com/emails', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: `Bearer ${RESEND_API_KEY}`,
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       from: 'inscriptions@votredomaine.fr',
-  //       to: commande.email_parent,
-  //       subject: 'Confirmation de votre inscription — L’Académie des Sciences',
-  //       text: emailBody
-  //     })
-  //   });
-  //   return;
-  // }
+  // Adresse d'expéditeur : domaine aven-co.com vérifié dans Resend.
+  const FROM_ADDRESS = 'Aven & Co <inscriptions@aven-co.com>';
 
-  console.log('[email non envoyé — fournisseur non configuré] Destinataire :', commande.email_parent);
-  console.log(emailBody);
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_API_KEY) {
+    console.log('[email non envoyé — RESEND_API_KEY manquante] Destinataire :', commande.email_parent);
+    console.log(emailBody);
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: FROM_ADDRESS,
+        to: commande.email_parent,
+        subject: 'Confirmation de votre inscription — Aven & Co',
+        text: emailBody
+      })
+    });
+    if (!res.ok) {
+      const detail = await res.text();
+      console.error('Échec de l’envoi Resend :', res.status, detail);
+    }
+  } catch (err) {
+    // Un échec d'email ne doit jamais faire échouer la confirmation du
+    // paiement lui-même : on journalise seulement.
+    console.error('Erreur lors de l’envoi de l’email de confirmation :', err.message);
+  }
 }
 
 module.exports = { sendConfirmationEmail };
