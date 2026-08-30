@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inscription confirmée — L’Académie des Sciences</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="topbar">Ressources pédagogiques accessibles à tous</div>
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">✦</span>
+      <span>L’Académie des Sciences<small>Ressources pédagogiques</small></span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="section"><div class="container" style="max-width:640px">
+
+    <div id="state-loading" class="form-card form-success">
+      <div class="icon">⏳</div>
+      <h2>Vérification du paiement…</h2>
+      <p class="lead" style="margin:0 auto">Merci de patienter quelques instants pendant que nous confirmons votre paiement auprès de Stripe.</p>
+    </div>
+
+    <div id="state-success" class="form-card form-success" style="display:none">
+      <div class="icon">✓</div>
+      <h2>Inscription confirmée</h2>
+      <p class="lead" style="margin:0 auto"><strong>Votre paiement a bien été enregistré.</strong> Les informations de votre inscription ont bien été transmises. Notre équipe va revenir vers vous afin de finaliser les modalités d’accompagnement et les créneaux.</p>
+      <ul class="recap-list" id="recap-list"></ul>
+      <div class="form-actions" style="margin-top:28px">
+        <a class="btn secondary" href="index.html" style="width:100%;max-width:320px;text-align:center">Retour à l’accueil</a>
+      </div>
+    </div>
+
+    <div id="state-pending" class="form-card form-success" style="display:none">
+      <div class="icon">⏳</div>
+      <h2>Paiement en cours de confirmation</h2>
+      <p class="lead" style="margin:0 auto">Stripe n’a pas encore confirmé ce paiement auprès de notre système. Cela ne prend généralement que quelques secondes — cette page se met à jour automatiquement. Si ce message persiste plusieurs minutes, contactez-nous en mentionnant la référence ci-dessous.</p>
+      <p class="form-note" id="session-ref"></p>
+    </div>
+
+    <div id="state-error" class="form-card form-success" style="display:none">
+      <div class="icon">!</div>
+      <h2>Impossible de vérifier ce paiement</h2>
+      <p class="lead" style="margin:0 auto">Aucune commande ne correspond à cette page. Si vous venez de payer, contactez-nous directement en précisant l’heure de votre paiement.</p>
+      <div class="form-actions" style="margin-top:28px">
+        <a class="btn secondary" href="cours.html" style="width:100%;max-width:320px;text-align:center">Retour à Nos cours</a>
+      </div>
+    </div>
+
+  </div></section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="copyright">© 2026 L’Académie des Sciences — Paiement sécurisé par Stripe.</div>
+  </div>
+</footer>
+<script>
+(function () {
+  // IMPORTANT : cette page n'affiche JAMAIS "inscription confirmée" sur la
+  // seule base de sa présence dans l'URL de retour Stripe. Elle interroge
+  // /api/commande-status, qui ne reflète que ce que le webhook Stripe a
+  // réellement écrit en base (voir netlify/functions/stripe-webhook.js et
+  // commande-status.js). C'est la seule source de vérité acceptée.
+
+  function $(id) { return document.getElementById(id); }
+  function showOnly(id) {
+    ['state-loading', 'state-success', 'state-pending', 'state-error'].forEach(function (s) {
+      $(s).style.display = s === id ? 'block' : 'none';
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var sessionId = params.get('session_id');
+
+  if (!sessionId) {
+    showOnly('state-error');
+    return;
+  }
+
+  var attempts = 0;
+  var maxAttempts = 10;
+
+  function check() {
+    attempts += 1;
+    fetch('/api/commande-status?session_id=' + encodeURIComponent(sessionId))
+      .then(function (res) {
+        if (res.status === 404) { showOnly('state-error'); return null; }
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data) return;
+        if (data.error) { showOnly('state-error'); return; }
+
+        if (data.statut_paiement === 'paye') {
+          var recap = [
+            ['Formule', data.formule_label],
+            ['Élève', data.prenom_eleve + ' ' + data.nom_eleve],
+            ['Parent', data.prenom_parent]
+          ];
+          if (data.type_offre === 'abonnement') {
+            recap.push(['Payé aujourd’hui', (Number(data.montant_acompte) + Number(data.prix_total)) + ' € (acompte + 1re mensualité)']);
+            recap.push(['Ensuite', data.prix_total + ' €/mois']);
+          } else {
+            recap.push(['Montant payé', data.prix_total + ' €']);
+          }
+          $('recap-list').innerHTML = recap.map(function (r) {
+            return '<li><span>' + escapeHtml(r[0]) + '</span><span>' + escapeHtml(r[1]) + '</span></li>';
+          }).join('');
+          showOnly('state-success');
+          return;
+        }
+
+        // Pas encore confirmé : le webhook Stripe peut mettre quelques
+        // secondes à arriver. On réessaie plusieurs fois avant d'afficher
+        // l'état "en attente" durablement.
+        if (attempts < maxAttempts) {
+          setTimeout(check, 1500);
+        } else {
+          $('session-ref').textContent = 'Référence : ' + sessionId;
+          showOnly('state-pending');
+        }
+      })
+      .catch(function () {
+        showOnly('state-error');
+      });
+  }
+
+  check();
+})();
+</script>
+</body></html>

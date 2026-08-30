@@ -1,0 +1,49 @@
+<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Une enfant souriante observe une plante avec une loupe pendant un atelier de sciences">
+  <defs>
+    <linearGradient id="bgSci" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EDE9FE"></stop>
+      <stop offset="1" stop-color="#DDD6FE"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="360" rx="28" fill="url(#bgSci)"></rect>
+  <circle cx="60" cy="60" r="40" fill="#C4B5FD" opacity="0.55"></circle>
+  <circle cx="430" cy="290" r="50" fill="#C4B5FD" opacity="0.45"></circle>
+
+  
+  <rect x="40" y="255" width="400" height="18" rx="8" fill="#4F46E5"></rect>
+  <rect x="60" y="273" width="16" height="50" fill="#312E81"></rect>
+  <rect x="404" y="273" width="16" height="50" fill="#312E81"></rect>
+
+  
+  <path d="M300 255 L296 220 L344 220 L340 255 Z" fill="#7C6A54"></path>
+  <path d="M320 220 C300 190 300 160 320 140 C340 160 340 190 320 220 Z" fill="#22C55E"></path>
+  <path d="M320 220 C310 195 312 175 320 160 C328 175 330 195 320 220 Z" fill="#16A34A"></path>
+  <path d="M320 220 C336 198 342 178 336 158 C324 172 320 196 320 220 Z" fill="#4ADE80"></path>
+
+  
+  <path d="M150 190 L150 165 L172 165 L172 190 L188 235 C190 245 182 252 172 252 L150 252 C140 252 132 245 134 235 Z" fill="#fff" stroke="#A78BFA" stroke-width="3"></path>
+  <path d="M138 236 L184 236 L188 246 C189 249 186 252 182 252 L140 252 C136 252 133 249 134 246 Z" fill="#A78BFA" opacity="0.55"></path>
+  <rect x="145" y="158" width="32" height="10" rx="3" fill="#A78BFA"></rect>
+
+  
+  <g transform="translate(190,80)">
+    <ellipse cx="65" cy="195" rx="52" ry="15" fill="#312E81" opacity="0.1"></ellipse>
+    <path d="M18 200 C12 140 28 98 65 98 C104 98 118 140 112 200 Z" fill="#4F46E5"></path>
+    <circle cx="65" cy="62" r="44" fill="#F2C299"></circle>
+    <path d="M20 55 C20 8 112 8 110 55 C108 20 22 20 20 55 Z" fill="#3B2A20"></path>
+    <path d="M17 48 C10 75 16 96 28 108 C18 90 14 65 17 48 Z" fill="#3B2A20"></path>
+    <path d="M113 48 C120 75 114 96 102 108 C112 90 116 65 113 48 Z" fill="#3B2A20"></path>
+    <circle cx="47" cy="64" r="5.5" fill="#2b2320"></circle>
+    <circle cx="83" cy="64" r="5.5" fill="#2b2320"></circle>
+    <path d="M45 84 Q65 102 85 84" stroke="#2b2320" stroke-width="4.5" fill="none" stroke-linecap="round"></path>
+    <circle cx="33" cy="76" r="7" fill="#F0A98A" opacity="0.6"></circle>
+    <circle cx="97" cy="76" r="7" fill="#F0A98A" opacity="0.6"></circle>
+    
+    <path d="M30 125 L-10 100" stroke="#F2C299" stroke-width="15" stroke-linecap="round"></path>
+    <circle cx="-22" cy="90" r="20" fill="none" stroke="#312E81" stroke-width="7"></circle>
+    <line x1="-8" y1="104" x2="4" y2="116" stroke="#312E81" stroke-width="7" stroke-linecap="round"></line>
+  </g>
+
+  <text x="360" y="80" font-family="Georgia, serif" font-size="26" fill="#A78BFA" font-weight="700">✦</text>
+  <text x="410" y="150" font-family="Georgia, serif" font-size="22" fill="#A78BFA" font-weight="700">✦</text>
+</svg>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inscription à l’atelier découverte — L’Académie des Sciences</title>
+<meta name="description" content="Inscrivez votre enfant à l’atelier découverte gratuit : choisissez un lieu, un niveau et une date, puis renseignez vos coordonnées en quelques instants.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="topbar">Ressources pédagogiques accessibles à tous</div>
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">✦</span>
+      <span>L’Académie des Sciences<small>Ressources pédagogiques</small></span>
+    </a>
+    <button class="mobile-toggle" aria-label="Ouvrir le menu">☰</button>
+    <nav class="menu">
+      <a href="methodes-pedagogiques.html">Méthodes pédagogiques</a>
+      <a href="cours.html">Nos cours</a>
+      <a href="organisation.html">Organisation</a>
+      <a href="choisir-ecole.html">Choisir son école</a>
+      <a href="memorisation.html">Mémorisation</a>
+      <div class="dropdown">
+        <button class="dropbtn">Par niveau ▾</button>
+        <div class="dropdown-panel">
+          <a href="maternelle.html">Maternelle (MS/GS)</a>
+          <a href="organisation.html#primaire">Primaire</a>
+          <a href="organisation.html#college">Collège</a>
+          <a href="organisation.html#lycee">Lycée & Baccalauréat</a>
+          <a href="bien-etre.html">Bien-être scolaire</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Nos cours</a> / Inscription</div>
+    <div class="kicker">Atelier découverte · Gratuit</div>
+    <h1 class="page-title">Inscription à l’atelier découverte</h1>
+    <p class="lead">Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau et une date, puis renseignez vos coordonnées. Nous vous recontactons pour confirmer le créneau.</p>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div id="form-api-error" class="form-api-error" style="max-width:720px;margin:0 auto 0">
+      Les disponibilités affichées ci-dessous sont temporaires : la connexion à la base de données n’est pas encore configurée sur cet environnement. Une fois les variables d’environnement Netlify renseignées (voir README-inscription.md), le formulaire utilisera automatiquement les lieux, niveaux et dates réels.
+    </div>
+
+    <div id="form-loading" class="form-loading">Chargement des disponibilités…</div>
+
+    <form id="inscription-form" class="form-card" style="display:none" novalidate>
+      <div class="form-section-title">Créneau souhaité</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="lieu">Lieu *</label>
+          <select id="lieu" data-field required>
+            <option value="">Sélectionner un lieu</option>
+          </select>
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="niveau">Niveau *</label>
+          <select id="niveau" data-field required>
+            <option value="">Sélectionner un niveau</option>
+          </select>
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="date">Date *</label>
+          <select id="date" data-field required>
+            <option value="">Sélectionner une date</option>
+          </select>
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+      </div>
+
+      <div class="form-section-title">Informations sur l’élève</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="prenom_eleve">Prénom de l’élève *</label>
+          <input type="text" id="prenom_eleve" data-field required autocomplete="given-name">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="nom_eleve">Nom de l’élève *</label>
+          <input type="text" id="nom_eleve" data-field required autocomplete="family-name">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="age_eleve">Âge de l’élève *</label>
+          <input type="text" id="age_eleve" data-field required inputmode="numeric">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+      </div>
+
+      <div class="form-section-title">Informations sur le parent</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="nom_prenom_parent">Nom Prénom du parent *</label>
+          <input type="text" id="nom_prenom_parent" data-field required autocomplete="name">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="email_parent">Email du parent *</label>
+          <input type="email" id="email_parent" data-field required autocomplete="email">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="telephone_parent">Téléphone du parent *</label>
+          <input type="tel" id="telephone_parent" data-field required autocomplete="tel" placeholder="06 12 34 56 78">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+      </div>
+
+      <p class="required-note">* Champs obligatoires</p>
+
+      <div class="form-actions">
+        <button type="submit" class="btn primary" id="submit-btn">Valider</button>
+      </div>
+      <p class="form-note">Vos informations sont utilisées uniquement pour le traitement de votre demande d’inscription à l’atelier découverte.</p>
+    </form>
+
+    <div id="form-success" class="form-card form-success" style="display:none">
+      <div class="icon">✓</div>
+      <h2>Votre demande a bien été enregistrée.</h2>
+      <p class="lead" style="margin:0 auto">Nous revenons vers vous rapidement pour confirmer votre créneau.</p>
+      <ul class="recap-list" id="recap-list"></ul>
+      <div class="form-actions" style="margin-top:28px">
+        <a class="btn secondary" href="index.html" style="width:100%;max-width:320px;text-align:center">Retour à l’accueil</a>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand"><span class="brand-mark">✦</span><span>L’Académie des Sciences</span></div>
+        <p>Des ressources pédagogiques simples pour mieux apprendre, mieux s’organiser et accompagner la réussite scolaire.</p>
+      </div>
+      <div><h4>Méthodes</h4>
+        <a href="methodes-pedagogiques.html">Pédagogies</a>
+        <a href="memorisation.html">Mémorisation</a>
+        <a href="memorisation.html">Technique Feynman</a>
+        <a href="memorisation.html">Pomodoro</a>
+      </div>
+      <div><h4>Par niveau</h4>
+        <a href="maternelle.html">Maternelle (MS/GS)</a>
+        <a href="organisation.html#primaire">Primaire</a>
+        <a href="organisation.html#college">Collège</a>
+        <a href="organisation.html#lycee">Lycée & Baccalauréat</a>
+      </div>
+      <div><h4>Informations</h4>
+        <a href="cours.html">Nos cours & tarifs</a>
+        <a href="inscription.html">Atelier découverte</a>
+        <a href="choisir-ecole.html">Choisir son école</a>
+        <a href="bien-etre.html">Bien-être scolaire</a>
+        <a href="cgi-cours.html">Conditions générales</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 L’Académie des Sciences — Démo de reconstruction front-end.</div>
+  </div>
+</footer>
+<script src="app.js"></script>
+<script src="assets/js/inscription.js"></script>
+</body></html>

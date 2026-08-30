@@ -1,0 +1,55 @@
+<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Deux enfants souriants codent ensemble sur un ordinateur portable">
+  <defs>
+    <linearGradient id="bgInfo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E0E7FF"></stop>
+      <stop offset="1" stop-color="#EEF2FF"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="360" rx="28" fill="url(#bgInfo)"></rect>
+  <circle cx="420" cy="70" r="36" fill="#A5B4FC" opacity="0.5"></circle>
+  <circle cx="40" cy="310" r="44" fill="#A5B4FC" opacity="0.45"></circle>
+
+  
+  <rect x="70" y="255" width="340" height="18" rx="8" fill="#4338CA"></rect>
+  <rect x="90" y="273" width="16" height="50" fill="#312E81"></rect>
+  <rect x="364" y="273" width="16" height="50" fill="#312E81"></rect>
+
+  
+  <rect x="185" y="185" width="110" height="72" rx="8" fill="#312E81"></rect>
+  <rect x="193" y="192" width="94" height="52" rx="4" fill="#EEF2FF"></rect>
+  <text x="240" y="223" font-family="monospace" font-size="16" fill="#4F46E5" text-anchor="middle">&lt;/ &gt;</text>
+  <path d="M175 257 L305 257 L315 270 L165 270 Z" fill="#4F46E5"></path>
+
+  
+  <g transform="translate(95,95)">
+    <ellipse cx="55" cy="180" rx="46" ry="14" fill="#312E81" opacity="0.1"></ellipse>
+    <path d="M15 185 C10 128 22 92 55 92 C90 92 100 128 96 185 Z" fill="#22C55E"></path>
+    <circle cx="55" cy="58" r="41" fill="#8D5A3B"></circle>
+    <path d="M14 52 C14 8 96 8 96 52 C88 25 22 25 14 52 Z" fill="#1C1310"></path>
+    <circle cx="40" cy="60" r="5" fill="#1C1310"></circle>
+    <circle cx="70" cy="60" r="5" fill="#1C1310"></circle>
+    <path d="M37 78 Q55 94 74 78" stroke="#1C1310" stroke-width="4" fill="none" stroke-linecap="round"></path>
+    <circle cx="28" cy="70" r="6.5" fill="#c9764f" opacity="0.5"></circle>
+    <circle cx="82" cy="70" r="6.5" fill="#c9764f" opacity="0.5"></circle>
+    <path d="M85 115 L112 128" stroke="#8D5A3B" stroke-width="13" stroke-linecap="round"></path>
+  </g>
+
+  
+  <g transform="translate(255,92)">
+    <ellipse cx="58" cy="183" rx="48" ry="14" fill="#312E81" opacity="0.1"></ellipse>
+    <path d="M16 188 C10 130 24 95 58 95 C94 95 104 130 100 188 Z" fill="#F97316"></path>
+    <circle cx="58" cy="60" r="42" fill="#F2C299"></circle>
+    <path d="M16 52 C22 10 96 10 100 52 C96 20 20 20 16 52 Z" fill="#B5651D"></path>
+    <path d="M13 42 C6 68 12 90 24 100 C13 82 10 58 13 42 Z" fill="#B5651D"></path>
+    <path d="M103 42 C110 68 104 90 92 100 C103 82 106 58 103 42 Z" fill="#B5651D"></path>
+    <circle cx="43" cy="62" r="5" fill="#2b2320"></circle>
+    <circle cx="75" cy="62" r="5" fill="#2b2320"></circle>
+    <path d="M40 80 Q58 96 78 80" stroke="#2b2320" stroke-width="4" fill="none" stroke-linecap="round"></path>
+    <circle cx="30" cy="72" r="6.5" fill="#F0A98A" opacity="0.6"></circle>
+    <circle cx="88" cy="72" r="6.5" fill="#F0A98A" opacity="0.6"></circle>
+    <path d="M20 118 L-6 108" stroke="#F2C299" stroke-width="13" stroke-linecap="round"></path>
+  </g>
+
+  <text x="70" y="70" font-family="monospace" font-size="20" fill="#818CF8" font-weight="700">01</text>
+  <text x="400" y="200" font-family="monospace" font-size="20" fill="#818CF8" font-weight="700">{ }</text>
+</svg>
