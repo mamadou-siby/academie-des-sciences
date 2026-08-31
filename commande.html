@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Inscription & paiement — Aven & Co</title>
-<meta name="description" content="Choisissez votre pack de 7 semaines ou votre formule d’abonnement, renseignez les informations de l’élève et du parent, puis payez en ligne en toute sécurité.">
+<title>Inscription en ligne bientôt disponible — Aven & Co</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,169 +14,46 @@
       <span class="brand-mark">✦</span>
       <span>Aven & Co<small>L’Académie des Sciences</small></span>
     </a>
+    <button class="mobile-toggle" aria-label="Ouvrir le menu">☰</button>
     <nav class="menu">
+      <a href="methodes-pedagogiques.html">Méthodes pédagogiques</a>
       <a href="cours.html">Nos cours</a>
+      <a href="organisation.html">Organisation</a>
+      <a href="choisir-ecole.html">Choisir son école</a>
+      <a href="memorisation.html">Mémorisation</a>
+      <div class="dropdown">
+        <button class="dropbtn">Par niveau ▾</button>
+        <div class="dropdown-panel">
+          <a href="maternelle.html">Maternelle (MS/GS)</a>
+          <a href="organisation.html#primaire">Primaire</a>
+          <a href="organisation.html#college">Collège</a>
+          <a href="organisation.html#lycee">Lycée & Baccalauréat</a>
+          <a href="bien-etre.html">Bien-être scolaire</a>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="page-hero"><div class="container">
-    <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Nos cours</a> / Inscription &amp; paiement</div>
-    <div class="kicker">Paiement sécurisé · Stripe</div>
-    <h1 class="page-title">Finaliser une inscription</h1>
-    <p class="lead">Choisissez votre formule, renseignez les informations de l’élève et du parent, puis payez en ligne en toute sécurité. Vos coordonnées bancaires ne transitent jamais par notre site : elles sont saisies directement sur la page sécurisée Stripe.</p>
-  </div></section>
-
-  <section class="section"><div class="container" style="max-width:820px">
-
-    <div class="commande-steps" id="steps-indicator">
-      <span data-step="1">1 · Offre</span>
-      <span data-step="2">2 · Formule</span>
-      <span data-step="3">3 · Élève</span>
-      <span data-step="4">4 · Parent</span>
-      <span data-step="5">5 · Récapitulatif</span>
+  <section class="section"><div class="container" style="max-width:640px">
+    <div class="form-card form-success">
+      <div class="icon">⏳</div>
+      <h2>Inscription en ligne bientôt disponible</h2>
+      <p class="lead" style="margin:0 auto">Le paiement en ligne des packs et abonnements n’est pas encore ouvert. En attendant, vous pouvez :</p>
+      <div class="form-actions" style="margin-top:28px;flex-direction:column;gap:12px">
+        <a class="btn primary" href="inscription.html" style="width:100%;max-width:340px;text-align:center">Réserver un atelier découverte gratuit</a>
+        <a class="btn secondary" href="mailto:contact@aven-co.com" style="width:100%;max-width:340px;text-align:center">Nous contacter par email</a>
+      </div>
+      <p class="form-note" style="margin-top:24px">Consultez nos <a href="cours.html" style="color:var(--green);font-weight:700">offres et tarifs</a> en attendant l’ouverture du paiement en ligne.</p>
     </div>
-
-    <div id="api-warning" class="form-api-error" style="display:none">
-      Le paiement en ligne n’est pas encore configuré sur cet environnement (clé Stripe manquante côté serveur). Ce tunnel reste consultable pour vérifier le parcours, mais la redirection finale vers Stripe échouera tant que les variables d’environnement ne sont pas renseignées — voir STRIPE-SETUP.md.
-    </div>
-
-    <!-- ÉTAPE 1 : type d'offre -->
-    <div class="commande-panel active form-card" data-panel="1">
-      <div class="form-section-title">Quel type d’accompagnement ?</div>
-      <div class="offer-choice-grid">
-        <button type="button" class="offer-choice-card" data-type="pack_7_semaines">
-          <h3>Pack 7 semaines</h3>
-          <p>Un cycle ciblé, paiement unique, pour progresser sur une période précise ou préparer une échéance (Brevet, Baccalauréat, concours).</p>
-        </button>
-        <button type="button" class="offer-choice-card" data-type="abonnement">
-          <h3>Abonnement mensuel</h3>
-          <p>Cours annuels réguliers (30 séances), réglés en un acompte puis 10 mensualités. Aucun renouvellement automatique au-delà.</p>
-        </button>
-      </div>
-      <div class="commande-nav"><span></span><button type="button" class="btn primary" id="next-1" disabled>Continuer</button></div>
-    </div>
-
-    <!-- ÉTAPE 2 : formule -->
-    <div class="commande-panel form-card" data-panel="2">
-      <div id="pack-niveau-block" style="display:none">
-        <div class="form-section-title">Niveau de l’élève</div>
-        <div class="niveau-pill-grid" id="niveau-pills">
-          <button type="button" class="niveau-pill" data-niveau="Primaire" data-cycle="primaire_6e">Primaire</button>
-          <button type="button" class="niveau-pill" data-niveau="6e" data-cycle="primaire_6e">6e</button>
-          <button type="button" class="niveau-pill" data-niveau="5e" data-cycle="primaire_6e">5e</button>
-          <button type="button" class="niveau-pill" data-niveau="4e" data-cycle="4e_terminale">4e</button>
-          <button type="button" class="niveau-pill" data-niveau="3e" data-cycle="4e_terminale">3e</button>
-          <button type="button" class="niveau-pill" data-niveau="Seconde" data-cycle="4e_terminale">Seconde</button>
-          <button type="button" class="niveau-pill" data-niveau="Première" data-cycle="4e_terminale">Première</button>
-          <button type="button" class="niveau-pill" data-niveau="Terminale" data-cycle="4e_terminale">Terminale</button>
-        </div>
-      </div>
-
-      <div id="pack-formule-block" style="display:none;margin-top:26px">
-        <div class="form-section-title">Rythme hebdomadaire</div>
-        <div class="formule-choice-grid" id="pack-formule-grid"></div>
-      </div>
-
-      <div id="abonnement-formule-block" style="display:none">
-        <div class="form-section-title">Formule d’abonnement</div>
-        <div class="formule-choice-grid two" id="abonnement-formule-grid">
-          <button type="button" class="formule-choice-card" data-code="ABONNEMENT_75">
-            <span class="badge">1h / semaine</span>
-            <div class="price">75 € <small>/mois</small></div>
-            <div class="detail">Acompte initial : 45 € · puis 10 mensualités de 75 € · aucun renouvellement au-delà</div>
-          </button>
-          <button type="button" class="formule-choice-card" data-code="ABONNEMENT_90">
-            <span class="badge">1h30 / semaine</span>
-            <div class="price">90 € <small>/mois</small></div>
-            <div class="detail">Acompte initial : 60 € · puis 10 mensualités de 90 € · aucun renouvellement au-delà</div>
-          </button>
-        </div>
-      </div>
-
-      <div class="commande-nav">
-        <button type="button" class="btn ghost" data-back="1">Retour</button>
-        <button type="button" class="btn primary" id="next-2" disabled>Continuer</button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 3 : élève -->
-    <div class="commande-panel form-card" data-panel="3">
-      <div class="form-section-title">Informations sur l’élève</div>
-      <div class="form-grid">
-        <div class="form-group"><label for="eleve_prenom">Prénom *</label><input type="text" id="eleve_prenom" data-field required></div>
-        <div class="form-group"><label for="eleve_nom">Nom *</label><input type="text" id="eleve_nom" data-field required></div>
-        <div class="form-group"><label for="eleve_classe">Classe</label><input type="text" id="eleve_classe"></div>
-      </div>
-      <div class="form-grid" style="margin-top:18px">
-        <div class="form-group full"><label for="eleve_etablissement">Établissement</label><input type="text" id="eleve_etablissement"></div>
-        <div class="form-group full"><label for="eleve_matieres">Matière(s)</label><input type="text" id="eleve_matieres" placeholder="Ex. mathématiques, physique-chimie"></div>
-        <div class="form-group full"><label for="eleve_objectif">Objectif</label><input type="text" id="eleve_objectif" placeholder="Ex. consolider les bases, préparer le Baccalauréat"></div>
-        <div class="form-group full"><label for="eleve_difficultes">Difficultés éventuelles</label><input type="text" id="eleve_difficultes"></div>
-        <div class="form-group full"><label for="eleve_echeance">Échéance éventuelle</label><input type="text" id="eleve_echeance" placeholder="Ex. contrôle le 15 novembre"></div>
-      </div>
-      <div class="commande-nav">
-        <button type="button" class="btn ghost" data-back="2">Retour</button>
-        <button type="button" class="btn primary" id="next-3">Continuer</button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 4 : parent -->
-    <div class="commande-panel form-card" data-panel="4">
-      <div class="form-section-title">Vos coordonnées</div>
-      <div class="form-grid">
-        <div class="form-group"><label for="parent_prenom">Prénom *</label><input type="text" id="parent_prenom" data-field required></div>
-        <div class="form-group"><label for="parent_nom">Nom *</label><input type="text" id="parent_nom" data-field required></div>
-        <div class="form-group"><label for="parent_email">Email *</label><input type="email" id="parent_email" data-field required></div>
-      </div>
-      <div class="form-grid" style="margin-top:18px">
-        <div class="form-group"><label for="parent_telephone">Téléphone *</label><input type="tel" id="parent_telephone" data-field required placeholder="06 12 34 56 78"></div>
-        <div class="form-group full"><label for="parent_adresse">Adresse de facturation (si nécessaire)</label><input type="text" id="parent_adresse"></div>
-      </div>
-      <div class="commande-nav">
-        <button type="button" class="btn ghost" data-back="3">Retour</button>
-        <button type="button" class="btn primary" id="next-4">Continuer</button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 5 : récapitulatif -->
-    <div class="commande-panel form-card" data-panel="5">
-      <div class="form-section-title">Récapitulatif avant paiement</div>
-      <div class="recap-card">
-        <h4>Offre</h4>
-        <div class="recap-row"><span>Formule</span><span id="recap-formule"></span></div>
-        <div class="recap-row" id="recap-niveau-row"><span>Niveau</span><span id="recap-niveau"></span></div>
-        <div class="recap-row" id="recap-rythme-row"><span>Organisation des séances</span><span id="recap-rythme"></span></div>
-        <div class="recap-row" id="recap-duree-row"><span>Durée</span><span id="recap-duree"></span></div>
-        <div class="recap-row"><span>Type de paiement</span><span id="recap-type-paiement"></span></div>
-      </div>
-      <div class="recap-card">
-        <h4>Élève &amp; parent</h4>
-        <div class="recap-row"><span>Élève</span><span id="recap-eleve"></span></div>
-        <div class="recap-row"><span>Parent</span><span id="recap-parent"></span></div>
-        <div class="recap-row"><span>Email</span><span id="recap-email"></span></div>
-      </div>
-      <div class="recap-total">
-        <span id="recap-total-label">Total à payer aujourd’hui</span>
-        <strong id="recap-total-amount"></strong>
-      </div>
-      <p class="recap-note" id="recap-abonnement-note" style="display:none"></p>
-      <div class="commande-nav">
-        <button type="button" class="btn ghost" data-back="4">Retour</button>
-        <button type="button" class="btn primary" id="pay-btn">Procéder au paiement sécurisé</button>
-      </div>
-      <p class="form-note">En cliquant sur « Procéder au paiement sécurisé », vous serez redirigé vers la page de paiement sécurisée Stripe. Aucune donnée bancaire n’est collectée sur ce site.</p>
-    </div>
-
   </div></section>
 </main>
 
 <footer class="footer">
   <div class="container">
-    <div class="copyright">© 2026 Aven & Co — Paiement sécurisé par Stripe.</div>
+    <div class="copyright">© 2026 Aven & Co — Démo de reconstruction front-end.</div>
   </div>
 </footer>
 <script src="app.js"></script>
-<script src="assets/js/commande.js"></script>
 </body></html>
