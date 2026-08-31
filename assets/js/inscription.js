@@ -89,19 +89,17 @@
   }
 
   function loadOptions() {
-    Promise.all([fetchJSON('/lieux'), fetchJSON('/niveaux'), fetchJSON('/dates'), fetchJSON('/creneaux')])
+    Promise.all([fetchJSON('/lieux'), fetchJSON('/niveaux'), fetchJSON('/dates')])
       .then(function (results) {
         fillSelect(lieuSelect, results[0], 'Sélectionner un lieu', false);
         fillSelect(niveauSelect, results[1], 'Sélectionner un niveau', false);
         fillSelect(dateSelect, results[2], 'Sélectionner une date', true);
-        fillSelect(creneauSelect, results[3], 'Sélectionner un créneau', false);
       })
       .catch(function () {
         usingFallback = true;
         fillSelect(lieuSelect, FALLBACK.lieux, 'Sélectionner un lieu', false);
         fillSelect(niveauSelect, FALLBACK.niveaux, 'Sélectionner un niveau', false);
         fillSelect(dateSelect, FALLBACK.dates, 'Sélectionner une date', true);
-        fillSelect(creneauSelect, FALLBACK.creneaux, 'Sélectionner un créneau', false);
         apiErrorEl.style.display = 'block';
       })
       .then(function () {
@@ -109,6 +107,35 @@
         form.style.display = 'block';
       });
   }
+
+  // Le créneau dépend de la date choisie : un même horaire peut être
+  // proposé un jour donné et pas un autre. Tant qu'aucune date n'est
+  // sélectionnée, le champ reste désactivé.
+  dateSelect.addEventListener('change', function () {
+    var dateId = dateSelect.value;
+    if (!dateId) {
+      creneauSelect.disabled = true;
+      fillSelect(creneauSelect, [], 'Sélectionnez d’abord une date', false);
+      return;
+    }
+
+    if (usingFallback) {
+      fillSelect(creneauSelect, FALLBACK.creneaux, 'Sélectionner un créneau', false);
+      creneauSelect.disabled = false;
+      return;
+    }
+
+    creneauSelect.disabled = true;
+    fillSelect(creneauSelect, [], 'Chargement des créneaux…', false);
+    fetchJSON('/creneaux?date_id=' + encodeURIComponent(dateId))
+      .then(function (creneaux) {
+        fillSelect(creneauSelect, creneaux, 'Sélectionner un créneau', false);
+        creneauSelect.disabled = false;
+      })
+      .catch(function () {
+        fillSelect(creneauSelect, [], 'Aucun créneau disponible', false);
+      });
+  });
 
   function isValidEmail(v) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);

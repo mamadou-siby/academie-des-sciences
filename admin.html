@@ -92,11 +92,12 @@
       <!-- CRÉNEAUX -->
       <div class="admin-panel" id="panel-creneaux">
         <div class="admin-table-wrap">
-          <table class="admin-table"><thead><tr><th>Ordre</th><th>Nom</th><th>Actif</th><th>Actions</th></tr></thead>
+          <table class="admin-table"><thead><tr><th>Ordre</th><th>Nom</th><th>Date</th><th>Actif</th><th>Actions</th></tr></thead>
           <tbody id="creneaux-tbody"></tbody></table>
         </div>
         <form class="admin-form-inline" data-add-form="creneaux">
-          <div class="form-group"><label>Nom (ex. 14h - 15h)</label><input type="text" name="nom" required></div>
+          <div class="form-group"><label>Nom (ex. 9h - 9h30)</label><input type="text" name="nom" required></div>
+          <div class="form-group"><label>Date (optionnel)</label><select name="date_id" id="creneaux-date-select"><option value="">Toutes les dates</option></select></div>
           <div class="form-group"><label>Ordre</label><input type="number" name="ordre" value="0"></div>
           <button class="btn primary" type="submit">Ajouter un créneau</button>
         </form>

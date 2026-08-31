@@ -1,10 +1,14 @@
 const { getClient, checkAdmin, cors } = require('./_supabase');
 
-// GET  /api/creneaux            -> creneaux actifs, triés par ordre (public)
-// GET  /api/creneaux (admin)    -> tous les creneaux (avec en-tête Authorization)
-// POST /api/creneaux            -> créer un créneau (admin)
-// PATCH /api/creneaux           -> modifier un créneau (admin) { id, ...champs }
-// DELETE /api/creneaux          -> supprimer un créneau (admin) { id }
+// GET  /api/creneaux?date_id=X   -> creneaux actifs pour cette date : ceux
+//                                    spécifiquement liés à date_id, plus ceux
+//                                    valables pour toutes les dates (date_id
+//                                    NULL). Triés par ordre. (public)
+// GET  /api/creneaux (admin)     -> tous les creneaux, sans filtre par date
+//                                    (avec en-tête Authorization)
+// POST /api/creneaux             -> créer un créneau (admin) { nom, ordre?, date_id? }
+// PATCH /api/creneaux            -> modifier un créneau (admin) { id, ...champs }
+// DELETE /api/creneaux           -> supprimer un créneau (admin) { id }
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers: cors, body: '' };
 
@@ -13,8 +17,14 @@ exports.handler = async (event) => {
 
     if (event.httpMethod === 'GET') {
       const admin = checkAdmin(event);
+      const params = event.queryStringParameters || {};
       let query = supabase.from('creneaux').select('*').order('ordre', { ascending: true });
-      if (!admin) query = query.eq('actif', true);
+      if (!admin) {
+        query = query.eq('actif', true);
+        if (params.date_id) {
+          query = query.or(`date_id.eq.${params.date_id},date_id.is.null`);
+        }
+      }
       const { data, error } = await query;
       if (error) throw error;
       return { statusCode: 200, headers: cors, body: JSON.stringify(data) };
@@ -29,7 +39,12 @@ exports.handler = async (event) => {
     if (event.httpMethod === 'POST') {
       const { data, error } = await supabase
         .from('creneaux')
-        .insert({ nom: payload.nom, actif: payload.actif ?? true, ordre: payload.ordre ?? 0 })
+        .insert({
+          nom: payload.nom,
+          actif: payload.actif ?? true,
+          ordre: payload.ordre ?? 0,
+          date_id: payload.date_id || null
+        })
         .select()
         .single();
       if (error) throw error;
@@ -55,3 +70,4 @@ exports.handler = async (event) => {
     return { statusCode: 500, headers: cors, body: JSON.stringify({ error: err.message }) };
   }
 };
+

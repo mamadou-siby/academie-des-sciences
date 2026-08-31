@@ -52,6 +52,11 @@ exports.handler = async (event) => {
       if (!niveauRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Ce niveau n’est plus disponible.' }) };
       if (!dateRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Cette date n’est plus disponible.' }) };
       if (!creneauRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Ce créneau n’est plus disponible.' }) };
+      // Le créneau doit être valable pour toutes les dates (date_id NULL) ou
+      // précisément pour la date choisie — jamais pour une autre date.
+      if (creneauRes.data.date_id !== null && String(creneauRes.data.date_id) !== String(payload.date_id)) {
+        return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Ce créneau n’est pas disponible à la date choisie.' }) };
+      }
 
       const { data, error } = await supabase
         .from('inscriptions')

@@ -11,6 +11,7 @@
 
   var lieuxCache = [];
   var niveauxCache = [];
+  var datesCache = [];
 
   function getToken() {
     return sessionStorage.getItem(TOKEN_KEY) || '';
@@ -119,6 +120,7 @@
 
   function loadTable(kind) {
     if (kind === 'dates') return loadDatesTable();
+    if (kind === 'creneaux') return loadCreneauxTable();
     authFetch('/' + kind)
       .then(function (items) {
         if (kind === 'lieux') { lieuxCache = items; fillOptionSelects('lieu'); }
@@ -163,14 +165,6 @@
       .catch(function (err) { alert(err.message); });
   });
 
-  document.querySelector('[data-add-form="creneaux"]').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var fd = new FormData(e.target);
-    authFetch('/creneaux', { method: 'POST', body: JSON.stringify({ nom: fd.get('nom'), ordre: parseInt(fd.get('ordre'), 10) || 0 }) })
-      .then(function () { e.target.reset(); loadTable('creneaux'); })
-      .catch(function (err) { alert(err.message); });
-  });
-
   // ---------- Dates ----------
   function nameFor(cache, id) {
     if (!id) return '—';
@@ -181,6 +175,8 @@
   function loadDatesTable() {
     authFetch('/dates')
       .then(function (items) {
+        datesCache = items;
+        fillCreneauxDateSelect();
         var tbody = document.getElementById('dates-tbody');
         if (!items.length) {
           tbody.innerHTML = '<tr><td colspan="5" class="admin-empty">Aucune date.</td></tr>';
@@ -226,6 +222,79 @@
       })
     })
       .then(function () { e.target.reset(); loadDatesTable(); })
+      .catch(function (err) { alert(err.message); });
+  });
+
+  // ---------- Créneaux (liés à une date, ou valables pour toutes) ----------
+  function fillCreneauxDateSelect() {
+    var select = document.getElementById('creneaux-date-select');
+    if (!select) return;
+    var keepFirst = select.options[0];
+    select.innerHTML = '';
+    select.appendChild(keepFirst);
+    datesCache.forEach(function (item) {
+      var opt = document.createElement('option');
+      opt.value = item.id;
+      opt.textContent = item.date;
+      select.appendChild(opt);
+    });
+  }
+
+  function dateStrFor(id) {
+    if (!id) return 'Toutes les dates';
+    var found = datesCache.find(function (i) { return String(i.id) === String(id); });
+    return found ? found.date : '—';
+  }
+
+  function loadCreneauxTable() {
+    authFetch('/creneaux')
+      .then(function (items) {
+        var tbody = document.getElementById('creneaux-tbody');
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="admin-empty">Aucun créneau.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = items.map(function (item) {
+          return '<tr data-id="' + item.id + '">' +
+            '<td><input type="number" class="ordre-input" value="' + item.ordre + '" style="width:60px;border:1px solid var(--line);border-radius:8px;padding:6px"></td>' +
+            '<td>' + escapeHtml(item.nom) + '</td>' +
+            '<td>' + escapeHtml(dateStrFor(item.date_id)) + '</td>' +
+            '<td><input type="checkbox" class="actif-input" ' + (item.actif ? 'checked' : '') + '></td>' +
+            '<td class="admin-actions"><button class="save-btn">Enregistrer</button><button class="danger delete-btn">Supprimer</button></td></tr>';
+        }).join('');
+
+        tbody.querySelectorAll('tr').forEach(function (row) {
+          var id = row.dataset.id;
+          row.querySelector('.save-btn').addEventListener('click', function () {
+            var ordre = parseInt(row.querySelector('.ordre-input').value, 10) || 0;
+            var actif = row.querySelector('.actif-input').checked;
+            authFetch('/creneaux', { method: 'PATCH', body: JSON.stringify({ id: id, ordre: ordre, actif: actif }) })
+              .then(function () { loadCreneauxTable(); })
+              .catch(function (err) { alert(err.message); });
+          });
+          row.querySelector('.delete-btn').addEventListener('click', function () {
+            if (!confirm('Supprimer ce créneau ?')) return;
+            authFetch('/creneaux', { method: 'DELETE', body: JSON.stringify({ id: id }) })
+              .then(function () { loadCreneauxTable(); })
+              .catch(function (err) { alert(err.message); });
+          });
+        });
+      })
+      .catch(function (err) { alert(err.message); });
+  }
+
+  document.querySelector('[data-add-form="creneaux"]').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fd = new FormData(e.target);
+    authFetch('/creneaux', {
+      method: 'POST',
+      body: JSON.stringify({
+        nom: fd.get('nom'),
+        ordre: parseInt(fd.get('ordre'), 10) || 0,
+        date_id: fd.get('date_id') || null
+      })
+    })
+      .then(function () { e.target.reset(); loadCreneauxTable(); })
       .catch(function (err) { alert(err.message); });
   });
 

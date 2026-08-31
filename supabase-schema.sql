@@ -36,12 +36,18 @@ create table if not exists dates_disponibles (
 );
 
 -- ============ CRÉNEAUX (horaires) ============
+-- date_id = NULL signifie que le créneau est proposé pour toutes les dates ;
+-- renseigné, il restreint le créneau à cette date précise (ex. 9h disponible
+-- le 13 septembre mais pas le 20).
 create table if not exists creneaux (
-  id     bigserial primary key,
-  nom    text not null,   -- ex: "14h - 15h"
-  actif  boolean not null default true,
-  ordre  integer not null default 0
+  id       bigserial primary key,
+  nom      text not null,   -- ex: "9h - 9h30"
+  actif    boolean not null default true,
+  ordre    integer not null default 0,
+  date_id  bigint references dates_disponibles(id) on delete cascade
 );
+
+create index if not exists idx_creneaux_date on creneaux(date_id);
 
 -- ============ INSCRIPTIONS / DEMANDES ============
 create table if not exists inscriptions (
@@ -89,12 +95,16 @@ insert into niveaux (nom, actif, ordre) values
 on conflict do nothing;
 
 insert into creneaux (nom, actif, ordre) values
-  ('9h - 10h', true, 1),
-  ('10h - 11h', true, 2),
-  ('14h - 15h', true, 3),
-  ('16h - 17h', true, 4),
-  ('17h - 18h', true, 5),
-  ('18h - 19h', true, 6)
+  ('9h - 9h30', true, 1),
+  ('9h30 - 10h', true, 2),
+  ('10h - 10h30', true, 3),
+  ('10h30 - 11h', true, 4),
+  ('14h - 14h30', true, 5),
+  ('14h30 - 15h', true, 6),
+  ('16h - 16h30', true, 7),
+  ('16h30 - 17h', true, 8),
+  ('17h - 17h30', true, 9),
+  ('17h30 - 18h', true, 10)
 on conflict do nothing;
 
 -- Exemple de dates (à ajuster/ajouter depuis l'espace administrateur) :
