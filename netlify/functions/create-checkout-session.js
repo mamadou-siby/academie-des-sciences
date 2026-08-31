@@ -133,13 +133,13 @@ exports.handler = async (event) => {
         lineItems.push({ price: acomptePriceId, quantity: 1 });
       }
 
-      // 10 mensualités puis arrêt automatique : on calcule la date de fin
-      // (aujourd'hui + 10 mois) et on la transmet à Stripe via cancel_at,
-      // qui annule l'abonnement automatiquement après la 10e échéance.
-      const cancelAt = Math.floor(Date.now() / 1000) + 10 * 30 * 24 * 60 * 60; // ≈ 10 mois
+      // Remarque : l'arrêt automatique après 10 mensualités (cancel_at)
+      // n'est pas un paramètre accepté à la création d'une session Checkout
+      // — Stripe ne l'autorise que sur un abonnement déjà créé. Cette étape
+      // est donc appliquée juste après, dans stripe-webhook.js, une fois
+      // l'abonnement effectivement créé (événement checkout.session.completed).
       sessionParams.subscription_data = {
-        metadata: sessionParams.metadata,
-        cancel_at: cancelAt
+        metadata: sessionParams.metadata
       };
     }
 

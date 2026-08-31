@@ -59,6 +59,22 @@ exports.handler = async (event) => {
         const session = stripeEvent.data.object;
         commandeId = session.metadata && session.metadata.commande_id;
         if (commandeId) {
+          let dateFinPrevue = null;
+
+          // Pour un abonnement (10 mensualités puis arrêt automatique) :
+          // le paramètre cancel_at n'est accepté que sur un abonnement déjà
+          // créé, pas à la création de la session Checkout. On l'applique
+          // donc ici, juste après la confirmation du premier paiement.
+          if (session.mode === 'subscription' && session.subscription) {
+            const cancelAtTimestamp = Math.floor(Date.now() / 1000) + 10 * 30 * 24 * 60 * 60; // ≈ 10 mois
+            try {
+              await stripe.subscriptions.update(session.subscription, { cancel_at: cancelAtTimestamp });
+              dateFinPrevue = new Date(cancelAtTimestamp * 1000).toISOString();
+            } catch (subErr) {
+              console.error('Échec de la programmation de l’arrêt automatique de l’abonnement :', subErr.message);
+            }
+          }
+
           await supabase
             .from('commandes')
             .update({
@@ -68,7 +84,8 @@ exports.handler = async (event) => {
               stripe_subscription_id: session.subscription || null,
               stripe_payment_intent_id: session.payment_intent || null,
               date_paiement: new Date().toISOString(),
-              cycles_payes: session.mode === 'subscription' ? 1 : 0
+              cycles_payes: session.mode === 'subscription' ? 1 : 0,
+              date_fin_prevue: dateFinPrevue
             })
             .eq('id', commandeId);
 
