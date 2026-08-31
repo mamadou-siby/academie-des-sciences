@@ -35,12 +35,21 @@ create table if not exists dates_disponibles (
   niveau_id  bigint references niveaux(id) on delete set null
 );
 
+-- ============ CRÉNEAUX (horaires) ============
+create table if not exists creneaux (
+  id     bigserial primary key,
+  nom    text not null,   -- ex: "14h - 15h"
+  actif  boolean not null default true,
+  ordre  integer not null default 0
+);
+
 -- ============ INSCRIPTIONS / DEMANDES ============
 create table if not exists inscriptions (
   id                  bigserial primary key,
   lieu_id             bigint references lieux(id),
   niveau_id           bigint references niveaux(id),
   date_id             bigint references dates_disponibles(id),
+  creneau_id          bigint references creneaux(id),
   prenom_eleve        text not null,
   nom_eleve           text not null,
   age_eleve           text not null,
@@ -56,6 +65,7 @@ create index if not exists idx_inscriptions_statut on inscriptions(statut);
 create index if not exists idx_dates_disponibles_date on dates_disponibles(date);
 
 -- ============ SÉCURITÉ ============
+alter table creneaux enable row level security;
 alter table lieux enable row level security;
 alter table niveaux enable row level security;
 alter table dates_disponibles enable row level security;
@@ -71,14 +81,20 @@ insert into lieux (nom, actif, ordre) values
 on conflict do nothing;
 
 insert into niveaux (nom, actif, ordre) values
-  ('Primaire', true, 1),
-  ('6e', true, 2),
-  ('5e', true, 3),
-  ('4e', true, 4),
-  ('3e', true, 5),
-  ('Seconde', true, 6),
-  ('Première', true, 7),
-  ('Terminale', true, 8)
+  ('Cycle 1 (MS, GS)', true, 1),
+  ('Cycle 2 (CP, CE1, CE2)', true, 2),
+  ('Cycle 3 (CM1, CM2, 6e)', true, 3),
+  ('Cycle 4 (5e, 4e, 3e)', true, 4),
+  ('Lycée (2nde, 1re, Terminale)', true, 5)
+on conflict do nothing;
+
+insert into creneaux (nom, actif, ordre) values
+  ('9h - 10h', true, 1),
+  ('10h - 11h', true, 2),
+  ('14h - 15h', true, 3),
+  ('16h - 17h', true, 4),
+  ('17h - 18h', true, 5),
+  ('18h - 19h', true, 6)
 on conflict do nothing;
 
 -- Exemple de dates (à ajuster/ajouter depuis l'espace administrateur) :

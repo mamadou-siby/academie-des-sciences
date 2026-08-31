@@ -12,7 +12,7 @@ function isValidPhone(phone) {
 }
 
 const REQUIRED_FIELDS = [
-  'lieu_id', 'niveau_id', 'date_id',
+  'lieu_id', 'niveau_id', 'date_id', 'creneau_id',
   'prenom_eleve', 'nom_eleve', 'age_eleve',
   'nom_prenom_parent', 'email_parent', 'telephone_parent'
 ];
@@ -41,15 +41,17 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Numéro de téléphone invalide.' }) };
       }
 
-      // Vérifie que le lieu, le niveau et la date sont toujours actifs.
-      const [lieuRes, niveauRes, dateRes] = await Promise.all([
+      // Vérifie que le lieu, le niveau, la date et le créneau sont toujours actifs.
+      const [lieuRes, niveauRes, dateRes, creneauRes] = await Promise.all([
         supabase.from('lieux').select('*').eq('id', payload.lieu_id).eq('actif', true).maybeSingle(),
         supabase.from('niveaux').select('*').eq('id', payload.niveau_id).eq('actif', true).maybeSingle(),
-        supabase.from('dates_disponibles').select('*').eq('id', payload.date_id).eq('actif', true).maybeSingle()
+        supabase.from('dates_disponibles').select('*').eq('id', payload.date_id).eq('actif', true).maybeSingle(),
+        supabase.from('creneaux').select('*').eq('id', payload.creneau_id).eq('actif', true).maybeSingle()
       ]);
       if (!lieuRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Ce lieu n’est plus disponible.' }) };
       if (!niveauRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Ce niveau n’est plus disponible.' }) };
       if (!dateRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Cette date n’est plus disponible.' }) };
+      if (!creneauRes.data) return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Ce créneau n’est plus disponible.' }) };
 
       const { data, error } = await supabase
         .from('inscriptions')
@@ -57,6 +59,7 @@ exports.handler = async (event) => {
           lieu_id: payload.lieu_id,
           niveau_id: payload.niveau_id,
           date_id: payload.date_id,
+          creneau_id: payload.creneau_id,
           prenom_eleve: payload.prenom_eleve,
           nom_eleve: payload.nom_eleve,
           age_eleve: String(payload.age_eleve),
@@ -77,6 +80,7 @@ exports.handler = async (event) => {
           lieu: lieuRes.data.nom,
           niveau: niveauRes.data.nom,
           date: dateRes.data.date,
+          creneau: creneauRes.data.nom,
           eleve: `${payload.prenom_eleve} ${payload.nom_eleve}`,
           parent: payload.nom_prenom_parent
         })
@@ -91,7 +95,7 @@ exports.handler = async (event) => {
       const params = event.queryStringParameters || {};
       let query = supabase
         .from('inscriptions')
-        .select('*, lieux(nom), niveaux(nom), dates_disponibles(date)')
+        .select('*, lieux(nom), niveaux(nom), dates_disponibles(date), creneaux(nom)')
         .order('date_creation', { ascending: false });
 
       if (params.statut) query = query.eq('statut', params.statut);

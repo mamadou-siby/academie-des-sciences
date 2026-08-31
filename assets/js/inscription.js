@@ -5,6 +5,7 @@
   var lieuSelect = document.getElementById('lieu');
   var niveauSelect = document.getElementById('niveau');
   var dateSelect = document.getElementById('date');
+  var creneauSelect = document.getElementById('creneau');
   var loadingEl = document.getElementById('form-loading');
   var apiErrorEl = document.getElementById('form-api-error');
   var successEl = document.getElementById('form-success');
@@ -12,11 +13,11 @@
   var submitBtn = document.getElementById('submit-btn');
 
   // Données de secours utilisées UNIQUEMENT si l'API (/api/lieux, /api/niveaux,
-  // /api/dates) n'est pas joignable — par exemple si ce site est prévisualisé
-  // sans que les Netlify Functions / la base de données ne soient encore
-  // connectées. Une fois le backend en place (voir README-inscription.md),
-  // ces données de secours ne sont jamais utilisées : le fetch réussit et
-  // les vraies données administrées remplacent ce jeu d'exemple.
+  // /api/dates, /api/creneaux) n'est pas joignable — par exemple si ce site
+  // est prévisualisé sans que les Netlify Functions / la base de données ne
+  // soient encore connectées. Une fois le backend en place (voir
+  // README-inscription.md), ces données de secours ne sont jamais utilisées :
+  // le fetch réussit et les vraies données administrées les remplacent.
   var FALLBACK = {
     lieux: [
       { id: 'demo-1', nom: 'Paris' },
@@ -24,19 +25,24 @@
       { id: 'demo-3', nom: 'Boulogne' }
     ],
     niveaux: [
-      { id: 'demo-1', nom: 'Primaire' },
-      { id: 'demo-2', nom: '6e' },
-      { id: 'demo-3', nom: '5e' },
-      { id: 'demo-4', nom: '4e' },
-      { id: 'demo-5', nom: '3e' },
-      { id: 'demo-6', nom: 'Seconde' },
-      { id: 'demo-7', nom: 'Première' },
-      { id: 'demo-8', nom: 'Terminale' }
+      { id: 'demo-1', nom: 'Cycle 1 (MS, GS)' },
+      { id: 'demo-2', nom: 'Cycle 2 (CP, CE1, CE2)' },
+      { id: 'demo-3', nom: 'Cycle 3 (CM1, CM2, 6e)' },
+      { id: 'demo-4', nom: 'Cycle 4 (5e, 4e, 3e)' },
+      { id: 'demo-5', nom: 'Lycée (2nde, 1re, Terminale)' }
     ],
     dates: [
       { id: 'demo-1', date: nextSaturdayISO(0) },
       { id: 'demo-2', date: nextSaturdayISO(1) },
       { id: 'demo-3', date: nextSaturdayISO(2) }
+    ],
+    creneaux: [
+      { id: 'demo-1', nom: '9h - 10h' },
+      { id: 'demo-2', nom: '10h - 11h' },
+      { id: 'demo-3', nom: '14h - 15h' },
+      { id: 'demo-4', nom: '16h - 17h' },
+      { id: 'demo-5', nom: '17h - 18h' },
+      { id: 'demo-6', nom: '18h - 19h' }
     ]
   };
 
@@ -83,17 +89,19 @@
   }
 
   function loadOptions() {
-    Promise.all([fetchJSON('/lieux'), fetchJSON('/niveaux'), fetchJSON('/dates')])
+    Promise.all([fetchJSON('/lieux'), fetchJSON('/niveaux'), fetchJSON('/dates'), fetchJSON('/creneaux')])
       .then(function (results) {
         fillSelect(lieuSelect, results[0], 'Sélectionner un lieu', false);
         fillSelect(niveauSelect, results[1], 'Sélectionner un niveau', false);
         fillSelect(dateSelect, results[2], 'Sélectionner une date', true);
+        fillSelect(creneauSelect, results[3], 'Sélectionner un créneau', false);
       })
       .catch(function () {
         usingFallback = true;
         fillSelect(lieuSelect, FALLBACK.lieux, 'Sélectionner un lieu', false);
         fillSelect(niveauSelect, FALLBACK.niveaux, 'Sélectionner un niveau', false);
         fillSelect(dateSelect, FALLBACK.dates, 'Sélectionner une date', true);
+        fillSelect(creneauSelect, FALLBACK.creneaux, 'Sélectionner un créneau', false);
         apiErrorEl.style.display = 'block';
       })
       .then(function () {
@@ -153,6 +161,7 @@
       ['Lieu', recap.lieu],
       ['Niveau', recap.niveau],
       ['Date', recap.date],
+      ['Créneau', recap.creneau],
       ['Élève', recap.eleve],
       ['Parent', recap.parent]
     ].map(function (row) {
@@ -171,6 +180,7 @@
       lieu_id: lieuSelect.value,
       niveau_id: niveauSelect.value,
       date_id: dateSelect.value,
+      creneau_id: creneauSelect.value,
       prenom_eleve: document.getElementById('prenom_eleve').value.trim(),
       nom_eleve: document.getElementById('nom_eleve').value.trim(),
       age_eleve: document.getElementById('age_eleve').value.trim(),
@@ -183,6 +193,7 @@
       lieu: lieuSelect.options[lieuSelect.selectedIndex].textContent,
       niveau: niveauSelect.options[niveauSelect.selectedIndex].textContent,
       date: dateSelect.options[dateSelect.selectedIndex].textContent,
+      creneau: creneauSelect.options[creneauSelect.selectedIndex].textContent,
       eleve: payload.prenom_eleve + ' ' + payload.nom_eleve,
       parent: payload.nom_prenom_parent
     };
@@ -210,6 +221,7 @@
           lieu: recapBase.lieu,
           niveau: recapBase.niveau,
           date: formatDate(data.date),
+          creneau: recapBase.creneau,
           eleve: data.eleve,
           parent: data.parent
         });

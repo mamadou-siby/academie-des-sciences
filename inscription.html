@@ -40,7 +40,7 @@
     <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Nos cours</a> / Inscription</div>
     <div class="kicker">Atelier découverte · Gratuit</div>
     <h1 class="page-title">Inscription à l’atelier découverte</h1>
-    <p class="lead">Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau et une date, puis renseignez vos coordonnées. Nous vous recontactons pour confirmer le créneau.</p>
+    <p class="lead">Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.</p>
   </div></section>
 
   <section class="section"><div class="container">
@@ -52,7 +52,7 @@
 
     <form id="inscription-form" class="form-card" style="display:none" novalidate>
       <div class="form-section-title">Créneau souhaité</div>
-      <div class="form-grid">
+      <div class="form-grid four">
         <div class="form-group">
           <label for="lieu">Lieu *</label>
           <select id="lieu" data-field required>
@@ -71,6 +71,13 @@
           <label for="date">Date *</label>
           <select id="date" data-field required>
             <option value="">Sélectionner une date</option>
+          </select>
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="creneau">Créneau *</label>
+          <select id="creneau" data-field required>
+            <option value="">Sélectionner un créneau</option>
           </select>
           <span class="field-error">Ce champ est obligatoire.</span>
         </div>
@@ -159,6 +166,7 @@
         <a href="choisir-ecole.html">Choisir son école</a>
         <a href="bien-etre.html">Bien-être scolaire</a>
         <a href="cgi-cours.html">Conditions générales</a>
+        <a href="mentions-legales.html">Mentions légales</a>
       </div>
     </div>
     <div class="copyright">© 2026 Aven & Co — Démo de reconstruction front-end.</div>

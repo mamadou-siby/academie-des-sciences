@@ -28,7 +28,7 @@ remplissez exactement les champs indiqués.
 
 | Champ Stripe | Valeur à saisir |
 |---|---|
-| **Nom** | `Accompagnement Progression – Primaire à 6e – 3h/semaine – 7 semaines` |
+| **Nom** | `Pack Primaire→5e — 3h/semaine — 7 semaines` |
 | **Description** (optionnel mais recommandé) | `2 × 1h30 par semaine · 21 heures sur 7 semaines · Tarif indicatif 20 €/h` |
 | **Image** | Aucune nécessaire |
 | **Modèle de tarification** | ☑️ **Standard pricing** (prix unique et fixe) |
@@ -47,7 +47,7 @@ remplissez exactement les champs indiqués.
 
 | Champ Stripe | Valeur à saisir |
 |---|---|
-| **Nom** | `Accompagnement Progression – Primaire à 6e – 4h/semaine – 7 semaines` |
+| **Nom** | `Pack Primaire→5e — 4h/semaine — 7 semaines` |
 | **Description** | `2 × 2h par semaine · 28 heures sur 7 semaines · Tarif indicatif 20 €/h` |
 | **Modèle de tarification** | ☑️ **Standard pricing** |
 | **Prix** | `560` |
@@ -62,7 +62,7 @@ remplissez exactement les champs indiqués.
 
 | Champ Stripe | Valeur à saisir |
 |---|---|
-| **Nom** | `Accompagnement Progression – Primaire à 6e – 4h30/semaine – 7 semaines` |
+| **Nom** | `Pack Primaire→5e — 4h30/semaine — 7 semaines` |
 | **Description** | `3 × 1h30 par semaine · 31h30 sur 7 semaines · Tarif indicatif 20 €/h` |
 | **Modèle de tarification** | ☑️ **Standard pricing** |
 | **Prix** | `630` |
@@ -77,7 +77,7 @@ remplissez exactement les champs indiqués.
 
 | Champ Stripe | Valeur à saisir |
 |---|---|
-| **Nom** | `Accompagnement Performance & Préparation aux Épreuves – 4e à Terminale – 3h/semaine – 7 semaines` |
+| **Nom** | `Pack 4e→Terminale — 3h/semaine — 7 semaines` |
 | **Description** | `2 × 1h30 par semaine · 21 heures sur 7 semaines · Tarif indicatif 24 €/h` |
 | **Modèle de tarification** | ☑️ **Standard pricing** |
 | **Prix** | `504` |
@@ -96,7 +96,7 @@ remplissez exactement les champs indiqués.
 
 | Champ Stripe | Valeur à saisir |
 |---|---|
-| **Nom** | `Accompagnement Performance & Préparation aux Épreuves – 4e à Terminale – 4h/semaine – 7 semaines` |
+| **Nom** | `Pack 4e→Terminale — 4h/semaine — 7 semaines` |
 | **Description** | `2 × 2h par semaine · 28 heures sur 7 semaines · Tarif indicatif 24 €/h` |
 | **Modèle de tarification** | ☑️ **Standard pricing** |
 | **Prix** | `672` |
@@ -111,7 +111,7 @@ remplissez exactement les champs indiqués.
 
 | Champ Stripe | Valeur à saisir |
 |---|---|
-| **Nom** | `Accompagnement Performance & Préparation aux Épreuves – 4e à Terminale – 4h30/semaine – 7 semaines` |
+| **Nom** | `Pack 4e→Terminale — 4h30/semaine — 7 semaines` |
 | **Description** | `3 × 1h30 par semaine · 31h30 sur 7 semaines · Tarif indicatif 24 €/h` |
 | **Modèle de tarification** | ☑️ **Standard pricing** |
 | **Prix** | `756` |

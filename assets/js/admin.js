@@ -76,6 +76,7 @@
     loadTable('lieux');
     loadTable('niveaux');
     loadTable('dates');
+    loadTable('creneaux');
     loadInscriptions();
     loadCommandes();
   }
@@ -162,6 +163,14 @@
       .catch(function (err) { alert(err.message); });
   });
 
+  document.querySelector('[data-add-form="creneaux"]').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fd = new FormData(e.target);
+    authFetch('/creneaux', { method: 'POST', body: JSON.stringify({ nom: fd.get('nom'), ordre: parseInt(fd.get('ordre'), 10) || 0 }) })
+      .then(function () { e.target.reset(); loadTable('creneaux'); })
+      .catch(function (err) { alert(err.message); });
+  });
+
   // ---------- Dates ----------
   function nameFor(cache, id) {
     if (!id) return '—';
@@ -234,19 +243,21 @@
       .then(function (items) {
         var tbody = document.getElementById('inscriptions-tbody');
         if (!items.length) {
-          tbody.innerHTML = '<tr><td colspan="9" class="admin-empty">Aucune demande.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="10" class="admin-empty">Aucune demande.</td></tr>';
           return;
         }
         tbody.innerHTML = items.map(function (item) {
           var lieuNom = item.lieux ? item.lieux.nom : '—';
           var niveauNom = item.niveaux ? item.niveaux.nom : '—';
           var dateNom = item.dates_disponibles ? item.dates_disponibles.date : '—';
+          var creneauNom = item.creneaux ? item.creneaux.nom : '—';
           var created = new Date(item.date_creation).toLocaleDateString('fr-FR');
           return '<tr data-id="' + item.id + '">' +
             '<td>' + created + '</td>' +
             '<td>' + escapeHtml(lieuNom) + '</td>' +
             '<td>' + escapeHtml(niveauNom) + '</td>' +
             '<td>' + dateNom + '</td>' +
+            '<td>' + escapeHtml(creneauNom) + '</td>' +
             '<td>' + escapeHtml(item.prenom_eleve + ' ' + item.nom_eleve) + ' (' + escapeHtml(item.age_eleve) + ' ans)</td>' +
             '<td>' + escapeHtml(item.nom_prenom_parent) + '</td>' +
             '<td>' + escapeHtml(item.email_parent) + '</td>' +
