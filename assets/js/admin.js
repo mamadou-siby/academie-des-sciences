@@ -312,7 +312,7 @@
       .then(function (items) {
         var tbody = document.getElementById('inscriptions-tbody');
         if (!items.length) {
-          tbody.innerHTML = '<tr><td colspan="10" class="admin-empty">Aucune demande.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="11" class="admin-empty">Aucune demande.</td></tr>';
           return;
         }
         tbody.innerHTML = items.map(function (item) {
@@ -331,6 +331,7 @@
             '<td>' + escapeHtml(item.nom_prenom_parent) + '</td>' +
             '<td>' + escapeHtml(item.email_parent) + '</td>' +
             '<td>' + escapeHtml(item.telephone_parent) + '</td>' +
+            '<td>' + (item.code_suivi ? escapeHtml(item.code_suivi) : '<span style="color:var(--muted)">—</span>') + '</td>' +
             '<td><select class="statut-select">' +
               ['Nouvelle', 'Contactée', 'Confirmée', 'Annulée'].map(function (s) {
                 return '<option ' + (s === item.statut ? 'selected' : '') + '>' + s + '</option>';

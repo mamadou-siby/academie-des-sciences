@@ -59,3 +59,6 @@ from (values
   ('17h30 - 18h', 10)
 ) as v(nom, ordre)
 where not exists (select 1 from creneaux);
+
+-- 6. Code de suivi (partenariats) sur les inscriptions à l'atelier découverte
+alter table inscriptions add column if not exists code_suivi text;

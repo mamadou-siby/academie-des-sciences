@@ -56,6 +56,7 @@ create table if not exists inscriptions (
   niveau_id           bigint references niveaux(id),
   date_id             bigint references dates_disponibles(id),
   creneau_id          bigint references creneaux(id),
+  code_suivi          text,
   prenom_eleve        text not null,
   nom_eleve           text not null,
   age_eleve           text not null,

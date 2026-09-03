@@ -213,7 +213,8 @@
       age_eleve: document.getElementById('age_eleve').value.trim(),
       nom_prenom_parent: document.getElementById('nom_prenom_parent').value.trim(),
       email_parent: document.getElementById('email_parent').value.trim(),
-      telephone_parent: document.getElementById('telephone_parent').value.trim()
+      telephone_parent: document.getElementById('telephone_parent').value.trim(),
+      code_suivi: document.getElementById('code_suivi').value.trim() || null
     };
 
     var recapBase = {

@@ -71,6 +71,7 @@ exports.handler = async (event) => {
           nom_prenom_parent: payload.nom_prenom_parent,
           email_parent: payload.email_parent,
           telephone_parent: payload.telephone_parent,
+          code_suivi: payload.code_suivi || null,
           statut: 'Nouvelle'
         })
         .select()
