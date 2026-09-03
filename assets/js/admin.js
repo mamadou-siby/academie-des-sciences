@@ -396,6 +396,7 @@
             '<td>' + escapeHtml(item.prenom_parent + ' ' + item.nom_parent) + '<br><span style="color:var(--muted);font-size:12px">' + escapeHtml(item.email_parent) + '</span></td>' +
             '<td>' + montant + '</td>' +
             '<td><span class="status-pill status-' + item.statut_paiement + '">' + STATUT_LABELS[item.statut_paiement] + '</span></td>' +
+            '<td>' + (item.numero_facture ? escapeHtml(item.numero_facture) : '<span style="color:var(--muted)">—</span>') + '</td>' +
             '<td><select class="statut-select">' +
               STATUTS_INSCRIPTION.map(function (s) {
                 return '<option value="' + s + '" ' + (s === item.statut_inscription ? 'selected' : '') + '>' + STATUT_LABELS[s] + '</option>';

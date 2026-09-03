@@ -78,6 +78,24 @@ exports.handler = async (event) => {
         .single();
       if (error) throw error;
 
+      // Envoi de l'email de confirmation — voir _send-inscription-email.js
+      // (nécessite un fournisseur d'emailing configuré, voir son en-tête).
+      try {
+        const { sendInscriptionEmail } = require('./_send-inscription-email');
+        await sendInscriptionEmail({
+          email_parent: payload.email_parent,
+          nom_prenom_parent: payload.nom_prenom_parent,
+          prenom_eleve: payload.prenom_eleve,
+          nom_eleve: payload.nom_eleve,
+          lieu: lieuRes.data.nom,
+          niveau: niveauRes.data.nom,
+          date: dateRes.data.date,
+          creneau: creneauRes.data.nom
+        });
+      } catch (mailErr) {
+        console.error('Envoi email d’inscription échoué :', mailErr.message);
+      }
+
       return {
         statusCode: 201,
         headers: cors,

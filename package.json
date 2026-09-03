@@ -5,6 +5,7 @@
   "description": "Netlify Functions du formulaire d'inscription à l'atelier découverte et du paiement Stripe.",
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
-    "stripe": "^16.12.0"
+    "stripe": "^16.12.0",
+    "pdf-lib": "^1.17.1"
   }
 }

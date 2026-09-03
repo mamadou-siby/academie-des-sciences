@@ -1,22 +1,12 @@
-// Envoie l'email de confirmation de paiement au parent.
+// Envoie l'email de confirmation de paiement au parent, avec la facture
+// PDF en pièce jointe. Appelée automatiquement par stripe-webhook.js une
+// fois qu'un paiement est confirmé.
 //
-// ⚠️ CETTE FONCTION NE ENVOIE PAS ENCORE D'EMAIL RÉEL. Elle est appelée
-// automatiquement par stripe-webhook.js une fois qu'un paiement est
-// confirmé, mais nécessite qu'un fournisseur d'emailing transactionnel
-// soit branché (aucune donnée bancaire n'étant en jeu ici, ce n'est pas
-// un sujet de sécurité, seulement de configuration) :
-//
-//   1. Créer un compte sur un service comme Resend (resend.com),
-//      Postmark ou Brevo — tous ont un plan gratuit suffisant pour
-//      démarrer.
-//   2. Ajouter la clé API du service en variable d'environnement
-//      Netlify (ex: RESEND_API_KEY).
-//   3. Décommenter et adapter le bloc d'envoi ci-dessous.
-//
-// En attendant, la fonction se contente de journaliser l'intention
-// d'envoi (visible dans les logs Netlify), pour ne rien bloquer côté
-// paiement : un échec d'email ne doit jamais faire échouer la
-// confirmation du paiement lui-même.
+// Un échec d'email (ou de génération de facture) ne doit jamais faire
+// échouer la confirmation du paiement lui-même : les erreurs sont
+// journalisées, pas remontées à l'appelant.
+
+const { generateInvoicePdf } = require('./_generate-invoice');
 
 async function sendConfirmationEmail(supabase, commandeId) {
   const { data: commande, error } = await supabase
@@ -30,6 +20,24 @@ async function sendConfirmationEmail(supabase, commandeId) {
   }
 
   const isAbonnement = commande.type_offre === 'abonnement';
+
+  // Attribution du numéro de facture (séquentiel, atomique côté base —
+  // voir supabase-migration-facturation.sql) puis génération du PDF.
+  // Si l'un des deux échoue, l'email part quand même, sans pièce jointe :
+  // mieux vaut confirmer le paiement sans facture que ne rien envoyer.
+  let numeroFacture = commande.numero_facture;
+  let invoiceBuffer = null;
+  try {
+    if (!numeroFacture) {
+      const { data: n, error: rpcErr } = await supabase.rpc('next_numero_facture');
+      if (rpcErr) throw rpcErr;
+      numeroFacture = n;
+      await supabase.from('commandes').update({ numero_facture: numeroFacture }).eq('id', commandeId);
+    }
+    invoiceBuffer = await generateInvoicePdf(commande, numeroFacture);
+  } catch (invoiceErr) {
+    console.error('Génération de la facture échouée :', invoiceErr.message);
+  }
 
   const lines = [];
   lines.push(`Bonjour ${commande.prenom_parent},`);
@@ -45,6 +53,8 @@ async function sendConfirmationEmail(supabase, commandeId) {
     lines.push(`- Montant payé : ${commande.prix_total} €`);
     lines.push(`- Les cours sont organisés en pack de 7 semaines (pas de vente à l'heure ni à la séance).`);
   }
+  lines.push('');
+  lines.push(invoiceBuffer ? 'Vous trouverez votre facture en pièce jointe.' : 'Votre facture vous sera transmise séparément.');
   lines.push('');
   lines.push('Notre équipe revient vers vous prochainement pour finaliser les créneaux.');
   lines.push('');
@@ -77,6 +87,21 @@ async function sendConfirmationEmail(supabase, commandeId) {
     return;
   }
 
+  const payload = {
+    from: FROM_ADDRESS,
+    to: commande.email_parent,
+    subject: 'Confirmation de votre inscription — Aven & Co',
+    text: emailBody,
+    html: emailHtml
+  };
+
+  if (invoiceBuffer) {
+    payload.attachments = [{
+      filename: `${numeroFacture}.pdf`,
+      content: invoiceBuffer.toString('base64')
+    }];
+  }
+
   try {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -84,13 +109,7 @@ async function sendConfirmationEmail(supabase, commandeId) {
         Authorization: `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        from: FROM_ADDRESS,
-        to: commande.email_parent,
-        subject: 'Confirmation de votre inscription — Aven & Co',
-        text: emailBody,
-        html: emailHtml
-      })
+      body: JSON.stringify(payload)
     });
     if (!res.ok) {
       const detail = await res.text();
