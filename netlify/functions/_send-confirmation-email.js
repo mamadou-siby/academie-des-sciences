@@ -31,24 +31,41 @@ async function sendConfirmationEmail(supabase, commandeId) {
 
   const isAbonnement = commande.type_offre === 'abonnement';
 
-  const lines = [
-    `Bonjour ${commande.prenom_parent},`,
-    '',
-    'Votre paiement a bien été enregistré. Voici le récapitulatif :',
-    `- Formule : ${commande.formule_label}`,
-    `- Élève : ${commande.prenom_eleve} ${commande.nom_eleve}`,
-    isAbonnement
-      ? `- Montant payé aujourd'hui : ${commande.montant_acompte} € (acompte) + ${commande.prix_total} € (première mensualité)`
-      : `- Montant payé : ${commande.prix_total} €`,
-    isAbonnement ? `- Ensuite : ${commande.prix_total} €/mois, pendant ${commande.cycles_prevus} mois au total, sans renouvellement automatique au-delà.` : '',
-    !isAbonnement ? `- Les cours sont organisés en pack de 7 semaines (pas de vente à l'heure ni à la séance).` : '',
-    '',
-    'Notre équipe revient vers vous prochainement pour finaliser les créneaux.',
-    '',
-    "Aven & Co — L'Académie des Sciences"
-  ].filter(Boolean);
+  const lines = [];
+  lines.push(`Bonjour ${commande.prenom_parent},`);
+  lines.push('');
+  lines.push('Votre paiement a bien été enregistré. Voici le récapitulatif :');
+  lines.push('');
+  lines.push(`- Formule : ${commande.formule_label}`);
+  lines.push(`- Élève : ${commande.prenom_eleve} ${commande.nom_eleve}`);
+  if (isAbonnement) {
+    lines.push(`- Montant payé aujourd'hui : ${commande.montant_acompte} € (acompte) + ${commande.prix_total} € (première mensualité)`);
+    lines.push(`- Ensuite : ${commande.prix_total} €/mois, pendant ${commande.cycles_prevus} mois au total, sans renouvellement automatique au-delà.`);
+  } else {
+    lines.push(`- Montant payé : ${commande.prix_total} €`);
+    lines.push(`- Les cours sont organisés en pack de 7 semaines (pas de vente à l'heure ni à la séance).`);
+  }
+  lines.push('');
+  lines.push('Notre équipe revient vers vous prochainement pour finaliser les créneaux.');
+  lines.push('');
+  lines.push("Aven & Co — L'Académie des Sciences");
 
   const emailBody = lines.join('\n');
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  // Version HTML en plus du texte brut : garantit l'espacement entre les
+  // lignes quel que soit le client mail (certains écrasent les simples
+  // retours à la ligne d'un email en texte brut).
+  const emailHtml =
+    '<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#16181D;max-width:540px">' +
+    lines.map(function (l) {
+      return l === '' ? '<div style="height:14px"></div>' : '<div>' + escapeHtml(l) + '</div>';
+    }).join('') +
+    '</div>';
 
   // Adresse d'expéditeur : domaine aven-co.com vérifié dans Resend.
   const FROM_ADDRESS = 'Aven & Co <inscriptions@aven-co.com>';
@@ -71,7 +88,8 @@ async function sendConfirmationEmail(supabase, commandeId) {
         from: FROM_ADDRESS,
         to: commande.email_parent,
         subject: 'Confirmation de votre inscription — Aven & Co',
-        text: emailBody
+        text: emailBody,
+        html: emailHtml
       })
     });
     if (!res.ok) {
