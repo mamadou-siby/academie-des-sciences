@@ -1,8 +1,9 @@
 // Mode du formulaire d'inscription (inscription.html)
 //
-//   'recontact' : MODE TEMPORAIRE — les listes « Date » et « Créneau » sont
-//                 indisponibles. Le parent remplit le reste, clique sur Valider
-//                 et voit qu'il sera recontacté pour fixer la date. Un e-mail
+//   'recontact' : MODE TEMPORAIRE — les champs « Date » et « Créneau » ne sont
+//                 pas affichés. Le parent remplit le reste, clique sur Valider
+//                 et le message de confirmation lui indique qu'il sera
+//                 recontacté pour fixer la date et l'heure. Un e-mail
 //                 part vers contact@aven-co.com et la demande apparaît dans
 //                 l'admin (« À recontacter »).
 //   'creneaux'  : réservation en ligne classique (le parent choisit la date et

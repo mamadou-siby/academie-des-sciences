@@ -24,24 +24,28 @@
   var allNiveaux = [];
   var academie = 'sciences';
   var datesToken = 0;
+  var MODE_RECONTACT = window.INSCRIPTION_MODE === 'recontact';
   var TEXTS = {
     sciences: {
       label: 'Académie des Sciences',
-      kicker: kickerEl ? kickerEl.textContent : '',
-      title: titleEl ? titleEl.textContent : '',
-      lead: leadEl ? leadEl.textContent : ''
+      kicker: 'Atelier découverte · Gratuit',
+      title: 'Inscription à l’atelier découverte',
+      lead: MODE_RECONTACT
+        ? 'Inscrivez votre enfant à l’atelier découverte : choisissez un lieu et un niveau, puis renseignez vos coordonnées.'
+        : 'Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
     },
     langues: {
       label: 'Académie des Langues · Anglais',
       kicker: 'Cours d’essai · Académie des Langues',
       title: 'Réserver un cours d’essai d’anglais',
-      lead: 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
+      lead: MODE_RECONTACT
+        ? 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu et un niveau, puis renseignez vos coordonnées.'
+        : 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
     }
   };
   // --- Mode temporaire « à recontacter » (voir assets/js/inscription-config.js) ---
   var RECONTACT = window.INSCRIPTION_MODE === 'recontact';
   var slotTitleEl = document.getElementById('slot-title');
-  var recontactNoticeEl = document.getElementById('recontact-notice');
   var successTitleEl = document.getElementById('success-title');
   var successLeadEl = document.getElementById('success-lead');
   // Niveaux proposés pour l'anglais tant qu'aucun niveau « Anglais… » n'existe dans l'admin
@@ -51,22 +55,17 @@
     { id: 'libre-3', nom: 'Anglais — Collège' },
     { id: 'libre-4', nom: 'Anglais — Lycée' }
   ];
-  if (RECONTACT) {
-    TEXTS.sciences.lead = 'Renseignez votre demande d’atelier découverte : nous vous recontacterons pour fixer avec vous la date et le créneau.';
-    TEXTS.langues.lead = 'Renseignez votre demande de cours d’essai : nous vous recontacterons pour fixer avec vous la date et le créneau.';
-  }
+  // Mode temporaire : les champs Date et Créneau ne sont pas affichés. Le parent
+  // apprend qu'il sera recontacté uniquement dans le message de confirmation.
   function setupRecontactSlots() {
     [dateSelect, creneauSelect].forEach(function (sel) {
       sel.removeAttribute('data-field');
       sel.removeAttribute('required');
       sel.disabled = true;
+      var group = sel.closest('.form-group');
+      if (group) { group.style.display = 'none'; group.parentElement.classList.add('two-cols'); }
     });
-    fillSelect(dateSelect, [], 'À fixer', true);
-    fillSelect(creneauSelect, [], 'À fixer', false);
-    var dl = document.querySelector('label[for="date"]'); if (dl) dl.textContent = 'Date';
-    var cl = document.querySelector('label[for="creneau"]'); if (cl) cl.textContent = 'Créneau';
-    if (slotTitleEl) slotTitleEl.textContent = 'Date & créneau';
-    if (recontactNoticeEl) recontactNoticeEl.style.display = 'block';
+    if (slotTitleEl) slotTitleEl.textContent = 'Lieu & niveau';
   }
   function isEnglishNiveau(n) { return /^\s*anglais/i.test((n && n.nom) || ''); }
   function niveauxForAcademie() {

@@ -685,5 +685,7 @@ p,li,.lead,figcaption span{text-wrap:pretty}
 }
 
 /* Mode temporaire « à recontacter » du formulaire d'inscription */
-.recontact-notice{margin:16px 0 4px;padding:14px 18px;border-radius:14px;background:var(--green2);border:1px solid var(--accent);color:var(--ink);font-size:14.5px;line-height:1.6}
 .form-group select:disabled{background:#F1F4FB;color:var(--muted);cursor:not-allowed}
+
+.two-cols{grid-template-columns:1fr 1fr!important}
+@media(max-width:620px){.two-cols{grid-template-columns:1fr!important}}

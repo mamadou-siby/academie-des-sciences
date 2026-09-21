@@ -113,10 +113,11 @@ Tant que les dates de cours d'essai / d'atelier ne sont pas ouvertes, le
 formulaire fonctionne en **mode « à recontacter »** (réglage dans
 `assets/js/inscription-config.js`, `window.INSCRIPTION_MODE = 'recontact'`) :
 
-- les listes **Date** et **Créneau** sont grisées (« À fixer avec vous ») ;
+- les champs **Date** et **Créneau** ne sont **pas affichés** ;
 - le parent remplit le reste (académie, lieu, niveau, élève, parent), clique sur
-  **Valider** et voit : *« Nous vous recontacterons très prochainement pour fixer
-  avec vous la date et le créneau. »* ;
+  **Valider**, et c'est seulement dans le **message de confirmation** qu'il lit :
+  *« Nous vous recontacterons très prochainement pour fixer avec vous la date et
+  le créneau. »* ;
 - un **e-mail d'alerte part vers contact@aven-co.com** (adresse modifiable avec la
   variable Netlify `CONTACT_EMAIL`), avec le téléphone et l'e-mail du parent ;
   répondre à cet e-mail écrit directement au parent (`reply-to`) ;
