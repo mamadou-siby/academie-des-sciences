@@ -200,13 +200,42 @@ Une fois le produit enregistré, restez sur sa fiche et cliquez
 
 ---
 
+## PARTIE 2 bis — Les 2 abonnements de l'École d'Anglais (même modèle)
+
+L'École d'Anglais reprend **exactement le même modèle tarifaire** que
+l'abonnement 30 séances de maths (mêmes montants, même mécanique : acompte
+puis 10 mensualités, arrêt automatique). Le code est déjà prêt
+(`ABONNEMENT_ANGLAIS_75` et `ABONNEMENT_ANGLAIS_90` dans `_offers-config.js`) ;
+il reste seulement à créer les prix dans Stripe et à renseigner 4 variables.
+
+**Deux façons de faire, au choix :**
+
+- **Option A (recommandée, suivi séparé dans Stripe)** : répétez les
+  Produits 7 et 8 ci-dessus en les nommant `École d'Anglais – Formule 75 €/mois`
+  et `École d'Anglais – Formule 90 €/mois` (mêmes prix : 75 € + acompte 45 €,
+  90 € + acompte 60 €). Ce sont les Produits 9 et 10.
+- **Option B (aucun nouveau produit)** : réutilisez les Price ID de l'Académie
+  des Sciences. Les montants étant identiques, cela fonctionne ; seule la
+  ligne de produit affichée dans Stripe sera celle des maths (la commande en
+  base garde bien le code `ABONNEMENT_ANGLAIS_…` et le libellé « École
+  d'Anglais »).
+
+| Variable d'environnement Netlify | Produit Stripe correspondant (option A) |
+|---|---|
+| `STRIPE_PRICE_ANGLAIS_75` | Produit 9, prix récurrent 75 € |
+| `STRIPE_PRICE_ACOMPTE_ANGLAIS_75` | Produit 9, prix ponctuel 45 € |
+| `STRIPE_PRICE_ANGLAIS_90` | Produit 10, prix récurrent 90 € |
+| `STRIPE_PRICE_ACOMPTE_ANGLAIS_90` | Produit 10, prix ponctuel 60 € |
+
+---
+
 ## PARTIE 3 — Récupérer les Price ID
 
 Pour chaque produit créé : **Produits → [nom du produit] → section « Tarifs »**.
 Chaque ligne de prix affiche son identifiant sous la forme `price_1AbC2dEfGhIjKlMn`.
 Cliquez dessus pour le copier.
 
-Récapitulatif des 10 identifiants à récupérer :
+Récapitulatif des 14 identifiants à récupérer (10 si vous réutilisez les prix de maths pour l'anglais — option B de la partie 2 bis) :
 
 | Variable d'environnement Netlify | Produit Stripe correspondant |
 |---|---|
@@ -220,6 +249,10 @@ Récapitulatif des 10 identifiants à récupérer :
 | `STRIPE_PRICE_ACOMPTE_75` | Produit 7, prix ponctuel |
 | `STRIPE_PRICE_ABONNEMENT_90` | Produit 8, prix récurrent |
 | `STRIPE_PRICE_ACOMPTE_90` | Produit 8, prix ponctuel |
+| `STRIPE_PRICE_ANGLAIS_75` | Produit 9 (École d'Anglais), prix récurrent |
+| `STRIPE_PRICE_ACOMPTE_ANGLAIS_75` | Produit 9, prix ponctuel |
+| `STRIPE_PRICE_ANGLAIS_90` | Produit 10 (École d'Anglais), prix récurrent |
+| `STRIPE_PRICE_ACOMPTE_ANGLAIS_90` | Produit 10, prix ponctuel |
 
 ---
 
@@ -302,6 +335,10 @@ STRIPE_PRICE_ABONNEMENT_75       = price_...
 STRIPE_PRICE_ACOMPTE_75          = price_...
 STRIPE_PRICE_ABONNEMENT_90       = price_...
 STRIPE_PRICE_ACOMPTE_90          = price_...
+STRIPE_PRICE_ANGLAIS_75          = price_...   (École d'Anglais — Partie 2 bis)
+STRIPE_PRICE_ACOMPTE_ANGLAIS_75  = price_...
+STRIPE_PRICE_ANGLAIS_90          = price_...
+STRIPE_PRICE_ACOMPTE_ANGLAIS_90  = price_...
 
 SITE_URL                        = https://votre-site.netlify.app
 
@@ -343,8 +380,9 @@ Après avoir ajouté ces variables, **redéployez le site** (Netlify → Deploys
    (refusée automatiquement par Stripe en mode test).
 
 Une fois tous ces tests concluants, répétez les Parties 1 à 6 en **Mode
-Live** (créer à nouveau les 8 produits — les produits de test et les
-produits réels sont toujours séparés chez Stripe) et remplacez les
+Live** (créer à nouveau tous les produits, anglais compris — les produits de test et
+les produits réels sont toujours séparés chez Stripe ; le webhook aussi doit
+être recréé en mode Live) et remplacez les
 variables d'environnement par leurs équivalents `sk_live_...` /
 `whsec_...` / Price ID du mode live.
 
@@ -360,6 +398,7 @@ Parent sur commande.html
         │
         ▼
  2a. Niveau + formule (pack)     2b. Formule 75€/90€ (abonnement)
+                                 → École d'Anglais ou Académie des Sciences
         │
         ▼
  3. Informations élève

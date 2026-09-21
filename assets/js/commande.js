@@ -20,7 +20,10 @@
 
   var ABONNEMENT_INFO = {
     ABONNEMENT_75: { label: 'Abonnement — Formule 1h/semaine', prix: 75, acompte: 45, organisation: '1h / semaine', duree: '30 séances sur l’année (10 mensualités)' },
-    ABONNEMENT_90: { label: 'Abonnement — Formule 1h30/semaine', prix: 90, acompte: 60, organisation: '1h30 / semaine', duree: '30 séances sur l’année (10 mensualités)' }
+    ABONNEMENT_90: { label: 'Abonnement — Formule 1h30/semaine', prix: 90, acompte: 60, organisation: '1h30 / semaine', duree: '30 séances sur l’année (10 mensualités)' },
+    // École d'Anglais : même modèle tarifaire que l'Académie des Sciences (mêmes montants)
+    ABONNEMENT_ANGLAIS_75: { label: 'École d’Anglais — Formule 1h/semaine', prix: 75, acompte: 45, organisation: '1h / semaine', duree: '30 séances sur l’année (10 mensualités)', matiere: 'Anglais' },
+    ABONNEMENT_ANGLAIS_90: { label: 'École d’Anglais — Formule 1h30/semaine', prix: 90, acompte: 60, organisation: '1h30 / semaine', duree: '30 séances sur l’année (10 mensualités)', matiere: 'Anglais' }
   };
 
   var state = {
@@ -47,7 +50,17 @@
       s.classList.toggle('active', n === step);
       s.classList.toggle('done', n < step);
     });
+    if (step === 3) applyDisciplineHints();
     window.scrollTo({ top: qs('.commande-steps').offsetTop - 90, behavior: 'smooth' });
+  }
+
+  // Exemples de saisie adaptés à l'offre choisie (École d'Anglais ou Académie des Sciences).
+  function applyDisciplineHints() {
+    var english = !!(state.formule && state.formule.matiere === 'Anglais');
+    var obj = $('eleve_objectif'), ech = $('eleve_echeance'), mat = $('eleve_matieres');
+    if (obj) obj.placeholder = english ? 'Ex. gagner en aisance à l’oral, préparer un examen Cambridge' : 'Ex. consolider les bases, préparer le Baccalauréat';
+    if (ech) ech.placeholder = english ? 'Ex. examen en juin, séjour à l’étranger' : 'Ex. contrôle le 15 novembre';
+    if (mat) mat.placeholder = english ? 'Anglais (renseigné automatiquement)' : 'Ex. mathématiques, physique-chimie';
   }
 
   qsa('[data-back]').forEach(function (btn) {
@@ -109,9 +122,9 @@
   }
 
   // ---------- Étape 2 : formule (abonnement) ----------
-  qsa('#abonnement-formule-grid .formule-choice-card').forEach(function (card) {
+  qsa('#abonnement-formule-block .formule-choice-card').forEach(function (card) {
     card.addEventListener('click', function () {
-      qsa('#abonnement-formule-grid .formule-choice-card').forEach(function (c) { c.classList.remove('selected'); });
+      qsa('#abonnement-formule-block .formule-choice-card').forEach(function (c) { c.classList.remove('selected'); });
       card.classList.add('selected');
       state.codeOffre = card.dataset.code;
       state.formule = ABONNEMENT_INFO[card.dataset.code];
@@ -207,7 +220,7 @@
         nom: $('eleve_nom').value.trim(),
         classe: $('eleve_classe').value.trim(),
         etablissement: $('eleve_etablissement').value.trim(),
-        matieres: $('eleve_matieres').value.trim(),
+        matieres: $('eleve_matieres').value.trim() || (state.formule && state.formule.matiere) || '',
         objectif: $('eleve_objectif').value.trim(),
         difficultes: $('eleve_difficultes').value.trim(),
         echeance: $('eleve_echeance').value.trim(),
@@ -249,6 +262,7 @@
   // tarifs, accueil...) de lancer le tunnel déjà rempli :
   //   ?pack=PACK_LYCEE_4H        → offre + niveau + formule choisis, saut direct à l'étape 3
   //   ?abonnement=ABONNEMENT_75  → offre + formule choisies, saut direct à l'étape 3
+  //   ?abonnement=ABONNEMENT_ANGLAIS_75 (ou _90) → idem pour l'École d'Anglais
   //   ?cycle=primaire_6e         → offre "pack" + volet niveau affiché, l'utilisateur choisit ensuite
   (function preselectFromQuery() {
     var params = new URLSearchParams(window.location.search);

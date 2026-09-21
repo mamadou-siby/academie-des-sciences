@@ -4,147 +4,127 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Planifier ses révisions au lycée — Aven & Co</title>
 <meta name="description" content="Hiérarchiser les matières et anticiper les échéances au lycée.">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="../methodes-pedagogiques/assets/tailwind-config.js"></script>
-<link rel="stylesheet" href="../methodes-pedagogiques/assets/article.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
-<body class="bg-cream-100 text-ink font-body">
-
-<header class="fixed top-0 inset-x-0 h-[68px] z-50 bg-white/95 backdrop-blur border-b border-cream-300 flex items-center">
-  <div class="max-w-wide mx-auto px-5 lg:px-10 w-full flex items-center gap-4">
-    <a href="../index.html" class="font-display font-extrabold text-ink flex items-center gap-2">
-      <span class="w-8 h-8 rounded-lg bg-[#4F46E5] text-white grid place-items-center text-sm">✦</span>
-      <span class="hidden sm:inline">Aven & Co</span>
+<body>
+<div id="progress-bar" aria-hidden="true"></div>
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">✦</span>
+      <span>Aven & Co<small>L’Académie</small></span>
     </a>
-    <nav class="ml-auto flex items-center gap-5 text-[13px] font-medium">
-      <a href="../organisation.html" class="text-ink-soft hover:text-indigo transition-colors">Organisation scolaire</a>
-      <a href="../cours.html" class="text-indigo font-semibold">Nos cours ✦</a>
+    <button class="mobile-toggle" aria-label="Ouvrir le menu">☰</button>
+    <nav class="menu">
+      <a href="../anglais.html">Académie des Langues</a>
+      <a href="../cours.html">Académie des Sciences</a>
+      <div class="dropdown">
+        <button class="dropbtn nav-active">Ressources pédagogiques ▾</button>
+        <div class="dropdown-panel">
+          <a href="../methodes-pedagogiques.html">Méthodes pédagogiques</a>
+          <a href="../memorisation.html">Mémorisation</a>
+          <a href="../organisation.html">Organisation scolaire</a>
+          <a href="../choisir-ecole.html">Choisir son école</a>
+          <a href="../bien-etre.html">Bien-être scolaire</a>
+          <span class="dropdown-label">Par niveau scolaire</span>
+          <a href="../maternelle.html">Maternelle (MS/GS)</a>
+          <a href="../organisation.html#primaire">Primaire</a>
+          <a href="../organisation.html#college">Collège</a>
+          <a href="../organisation.html#lycee">Lycée &amp; Baccalauréat</a>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
+<main>
+  <section class="page-hero article-hero"><div class="container">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a> / <a href="../organisation.html">Organisation scolaire</a> / Planifier ses révisions au lycée</div>
+    <div class="kicker">Organisation scolaire</div>
+    <h1 class="page-title article-title">Planifier ses révisions au lycée</h1>
+    <div class="article-meta"><span class="pill">9 min de lecture</span><time datetime="2026">2 février 2026</time></div>
+  </div></section>
 
-<main class="flex-1 pt-[68px]">
-  <div id="progress-bar" class="fixed top-[68px] left-0 z-40 h-0.5 w-0 transition-none" style="background:#0D9488" aria-hidden="true"></div>
+  <section class="section article-section"><div class="container article-layout">
+    <article>
+      <div class="article-content" id="article-body">
 
-  <div class="relative bg-cream-100 border-b border-cream-300/60 overflow-hidden">
-    <div class="absolute top-0 left-0 right-0 h-1" style="background:#0D9488"></div>
-    <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 80% 0%, #CFF3ED 0%, transparent 60%);"></div>
-    <div class="relative max-w-wide mx-auto px-5 lg:px-10 pt-10 pb-12 md:pt-14 md:pb-16">
-      <nav class="mb-8" aria-label="Fil d’Ariane">
-        <ol class="flex flex-wrap items-center gap-2 text-[11px] tracking-wide text-ink-soft">
-          <li class="flex items-center gap-2"><a href="../index.html" class="hover:text-indigo transition-colors">Accueil</a></li>
-          <li class="flex items-center gap-2"><span class="text-cream-400">/</span><a href="../organisation.html" class="hover:text-indigo transition-colors">Organisation scolaire</a></li>
-          <li class="flex items-center gap-2"><span class="text-cream-400">/</span><span class="text-ink-muted font-medium">Planifier ses révisions au lycée</span></li>
-        </ol>
-      </nav>
-
-      <div class="flex flex-wrap items-center gap-3 mb-6">
-        <a href="../organisation.html" class="inline-block text-[10px] font-semibold px-2.5 py-1 rounded-full hover:opacity-80 transition-opacity" style="background:#CFF3ED;color:#0D9488">Organisation scolaire</a>
-        <span class="text-cream-400 text-[11px]">|</span>
-        <time datetime="2026" class="text-[12px] text-ink-soft">2 février 2026</time>
-        <span class="text-cream-400 text-[11px]">|</span>
-        <span class="text-[12px] text-ink-soft">9 min de lecture</span>
-      </div>
-
-      <h1 class="font-display font-extrabold text-ink max-w-3xl" style="font-size:clamp(1.75rem,4.5vw,3.25rem);line-height:1.1;letter-spacing:-0.025em">Planifier ses révisions au lycée</h1>
-
-      <div class="flex items-center gap-3 mt-8">
-        <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#CFF3ED">
-          <svg class="w-4 h-4" style="color:#0D9488" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <div>
-          <p class="text-[12px] font-display font-semibold text-ink">Aven & Co</p>
-          <p class="text-[10px] uppercase tracking-widest text-ink-soft">L’Académie des Sciences</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="max-w-wide mx-auto px-5 lg:px-10 py-10 md:py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 xl:gap-16 items-start">
-      <article>
-        <div class="article-content" id="article-body">
 <p>Au lycée, le nombre de matières et le poids des évaluations augmentent, ce qui rend une planification explicite plus nécessaire qu’au collège. L’organisation informelle qui suffisait auparavant montre souvent ses limites face à la densité du programme et à la multiplication des devoirs sur table.</p>
-<p><strong>Ce qu’il faut retenir :</strong></p>
-<ul><li>Toutes les matières n’ont pas le même poids dans la moyenne ou l’examen final, ce qui doit orienter la répartition du temps.</li><li>Les devoirs sur table demandent une préparation étalée sur plusieurs jours, pas la veille seulement.</li><li>Un planning hebdomadaire visible aide à répartir les matières sur la semaine sans les oublier.</li></ul>
+<div class="key-points"><strong class="kp-title">Ce qu’il faut retenir</strong><ul><li>Toutes les matières n’ont pas le même poids dans la moyenne ou l’examen final, ce qui doit orienter la répartition du temps.</li><li>Les devoirs sur table demandent une préparation étalée sur plusieurs jours, pas la veille seulement.</li><li>Un planning hebdomadaire visible aide à répartir les matières sur la semaine sans les oublier.</li></ul></div>
 <h2>Hiérarchiser les matières</h2>
-<p>Identifier les matières à fort coefficient ou celles où les difficultés sont installées permet de leur consacrer davantage de temps, sans pour autant délaisser complètement les autres, qui comptent aussi dans la moyenne générale et dans la cohérence globale du dossier scolaire. Cette hiérarchisation n’est pas figée sur l’année : elle doit être réévaluée à chaque nouveau bulletin ou après chaque devoir sur table qui révèle une difficulté inattendue.</p>
+<p>Identifier les matières à fort coefficient ou celles où les difficultés sont installées permet de leur consacrer davantage de temps, sans pour autant délaisser complètement les autres, qui comptent aussi dans la moyenne générale et dans la cohérence globale du dossier scolaire. Cette hiérarchisation n’est pas figée sur l’année : elle doit être réévaluée à chaque nouveau bulletin ou après chaque devoir sur table qui révèle une difficulté inattendue.</p>
 <h2>Anticiper les échéances</h2>
 <p>Reporter les dates de contrôles connues sur un planning dès leur annonce, et démarrer les révisions plusieurs jours avant plutôt que la veille, laisse le temps de repérer et combler les lacunes. Un devoir sur table annoncé deux semaines à l’avance peut ainsi être préparé progressivement, quelques dizaines de minutes chaque jour, plutôt qu’en une seule soirée intensive et épuisante.</p>
 <h2>Gérer les semaines de forte charge</h2>
 <p>Certaines semaines concentrent plusieurs évaluations importantes, ce qui demande une organisation particulièrement rigoureuse. Repérer ces semaines à l’avance, dès la publication du calendrier des devoirs sur table, permet d’avancer certaines révisions en amont plutôt que de découvrir la surcharge au dernier moment, quand il est déjà trop tard pour bien s’organiser.</p>
 <h2>Questions fréquentes</h2>
-<h3>Faut-il un planning identique chaque semaine ?</h3>
+<h3>Faut-il un planning identique chaque semaine ?</h3>
 <p>Une trame fixe, avec les mêmes créneaux pour les mêmes matières, facilite la mise en place et devient rapidement une habitude, à ajuster ponctuellement selon les contrôles à venir dans chaque matière.</p>
-<h3>Comment gérer plusieurs contrôles la même semaine ?</h3>
+<h3>Comment gérer plusieurs contrôles la même semaine ?</h3>
 <p>Répartir les révisions en amont dès l’annonce des dates, en commençant par la matière la plus exigeante en temps de préparation, pour ne pas se retrouver à devoir tout faire dans les derniers jours.</p>
 <h2>En résumé</h2>
 <p>Un planning hebdomadaire structuré, construit dès le début de l’année et ajusté régulièrement, facilite aussi la <a href="preparer-bac.html">préparation du baccalauréat</a> les années suivantes.</p>
-        </div>
 
-        <p class="mt-10 text-[11px] text-ink-soft/60 font-body">Dernière mise à jour : <time datetime="2026">2 février 2026</time></p>
-        <div class="mt-10 mb-10 h-px bg-gradient-to-r from-cream-300 via-cream-400 to-cream-300"></div>
-
-        <div class="flex items-start gap-5 p-6 rounded-2xl bg-indigo-50 border border-indigo-100">
-          <div class="w-12 h-12 rounded-xl bg-indigo flex items-center justify-center flex-shrink-0">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-          </div>
-          <div>
-            <h4 class="font-display font-bold text-base text-ink mb-1">Aven & Co</h4>
-            <p class="text-[10px] uppercase tracking-widest text-indigo font-display font-semibold mb-2">L’Académie des Sciences — ressources gratuites</p>
-            <p class="text-sm text-ink-soft leading-relaxed">Guides pédagogiques, techniques de mémorisation et conseils d’organisation, pensés pour accompagner élèves, parents et enseignants — et nos cours de mathématiques, sciences &amp; informatique.</p>
-          </div>
-        </div>
-      </article>
-
-      <aside class="hidden lg:block" aria-label="Sommaire">
-        <div class="sticky top-[84px] space-y-5">
-          <div class="rounded-2xl border border-cream-300 bg-white p-5">
-            <h3 class="font-display font-bold text-[12px] uppercase tracking-widest text-ink-soft mb-4">Sommaire</h3>
-            <nav id="toc-nav" aria-label="Table des matières"></nav>
-          </div>
-
-          <div class="rounded-2xl p-5 border" style="background:#CFF3ED;border-color:#0D948822">
-            <p class="font-display font-bold text-[12px] uppercase tracking-widest mb-3" style="color:#0D9488">Organisation scolaire</p>
-            <p class="text-sm text-ink-soft mb-4 leading-relaxed">Découvrez tous nos guides sur ce thème.</p>
-            <a href="../organisation.html" class="inline-flex items-center gap-2 text-sm font-display font-semibold transition-opacity hover:opacity-75" style="color:#0D9488">
-              Voir tous les guides
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-          </div>
-
-          <div class="rounded-2xl border p-5" style="background:#4F46E50d;border-color:#4F46E533">
-            <p class="font-display font-bold text-[12px] uppercase tracking-widest mb-3" style="color:#4F46E5">Nos cours</p>
-            <p class="text-sm text-ink-soft mb-4 leading-relaxed">Maths, sciences &amp; informatique, de la moyenne section à la terminale — cours d’essai en début d’année.</p>
-            <a href="../cours.html" class="inline-flex items-center gap-2 text-sm font-display font-semibold transition-opacity hover:opacity-75" style="color:#4F46E5">
-              Voir les tarifs
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-          </div>
-
-          <div class="rounded-2xl border border-cream-300 bg-white p-5">
-            <p class="font-display font-bold text-[12px] uppercase tracking-widest text-ink-soft mb-3">Partager</p>
-            <button id="copy-url-btn" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-cream-100 hover:bg-cream-200 transition-colors text-[12px] font-display font-semibold text-ink-muted" data-url="https://academie-des-sciences.exemple.fr/organisation/planifier-revisions-lycee.html" type="button">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-              <span id="copy-label">Copier le lien</span>
-            </button>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </div>
-
-  <div class="lg:hidden max-w-wide mx-auto px-5 pb-10">
-    <a href="../organisation.html" class="flex items-center justify-between p-5 rounded-2xl border" style="background:#CFF3ED;border-color:#0D948822">
-      <div>
-        <p class="font-display font-bold text-sm" style="color:#0D9488">Organisation scolaire</p>
-        <p class="text-xs text-ink-soft mt-0.5">Voir tous les guides de ce thème</p>
       </div>
-      <svg class="w-5 h-5 flex-shrink-0" style="color:#0D9488" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-    </a>
-  </div>
-</main>
+      <p class="article-updated">Dernière mise à jour : <time datetime="2026">2 février 2026</time></p>
+      <p class="article-note">Aven &amp; Co — guides pédagogiques gratuits. Pour aller plus loin : <a href="../anglais.html">Académie des Langues</a> (anglais, <span class="nw">4–18 ans</span>) · <a href="../cours.html">Académie des Sciences</a> (maths, sciences &amp; informatique).</p>
+    </article>
 
-<script src="../methodes-pedagogiques/assets/article.js"></script>
-</body>
-</html>
+    <aside class="article-aside" aria-label="Sommaire">
+      <div class="side-card toc-card">
+        <div class="side-label">Sommaire</div>
+        <nav class="toc" id="toc-nav" aria-label="Table des matières"></nav>
+      </div>
+      <div class="side-card side-academies">
+        <div class="side-label">Nos académies</div>
+        <a href="../anglais.html"><span>Académie des Langues</span><small>Anglais, de 4 à 18 ans</small></a>
+        <a href="../cours.html"><span>Académie des Sciences</span><small>Maths, sciences &amp; informatique</small></a>
+      </div>
+    </aside>
+  </div></section>
+
+  <section class="section more-guides"><div class="container">
+    <div class="kicker">Continuer la lecture</div>
+    <h2>À lire aussi</h2>
+    <div class="article-grid"><a class="article-list-card article-list-card-link" href="planning-hebdomadaire.html"><div class="meta">Organisation scolaire · 6 min</div><h3>Créer un planning hebdomadaire</h3><p>Construire un planning qui part des contraintes fixes et garde de la marge pour les imprévus.</p><span class="read-more">Lire le guide →</span></a><a class="article-list-card article-list-card-link" href="preparer-bac.html"><div class="meta">Organisation scolaire · 4 min</div><h3>Préparer le bac sans surcharge</h3><p>Étaler les révisions du bac sur l’année pour éviter la surcharge de dernière minute.</p><span class="read-more">Lire le guide →</span></a><a class="article-list-card article-list-card-link" href="preparer-entree-college.html"><div class="meta">Organisation scolaire · 6 min</div><h3>Préparer l’entrée au collège</h3><p>Anticiper l’organisation matérielle et construire l’autonomie dès la 6e.</p><span class="read-more">Lire le guide →</span></a></div>
+    <p style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <a class="btn secondary" href="../organisation.html">Tous les guides · Organisation scolaire</a>
+      <button class="btn secondary copy-btn" id="copy-url-btn" type="button" data-url="https://academie-des-sciences.exemple.fr/organisation/planifier-revisions-lycee.html"><span id="copy-label">Copier le lien</span></button>
+    </p>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand"><span class="brand-mark">✦</span><span>Aven & Co</span></div>
+        <p>Des ressources pédagogiques simples pour mieux apprendre, mieux s’organiser et accompagner la réussite scolaire.</p>
+      </div>
+      <div><h4>Méthodes</h4>
+        <a href="../methodes-pedagogiques.html">Pédagogies</a>
+        <a href="../memorisation.html">Mémorisation</a>
+        <a href="../memorisation.html">Technique Feynman</a>
+        <a href="../memorisation.html">Pomodoro</a>
+      </div>
+      <div><h4>Par niveau</h4>
+        <a href="../maternelle.html">Maternelle (MS/GS)</a>
+        <a href="../organisation.html#primaire">Primaire</a>
+        <a href="../organisation.html#college">Collège</a>
+        <a href="../organisation.html#lycee">Lycée & Baccalauréat</a>
+      </div>
+      <div><h4>Informations</h4>
+        <a href="../anglais.html">Académie des Langues</a>
+        <a href="../cours.html">Académie des Sciences</a>
+        <a href="../inscription.html">Atelier découverte</a>
+        <a href="../commande.html">Paiement en ligne</a>
+        <a href="../choisir-ecole.html">Choisir son école</a>
+        <a href="../bien-etre.html">Bien-être scolaire</a>
+        <a href="../cgi-cours.html">Conditions générales</a>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 Aven & Co — Démo de reconstruction front-end.</div>
+  </div>
+</footer>
+<script src="../app.js"></script>
+<script src="../assets/js/article.js"></script>
+</body></html>

@@ -1,25 +1,25 @@
 <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Une professeure sourit avec un petit groupe d’élèves">
   <defs>
     <linearGradient id="bgClasseCarre" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EEF2FF"></stop>
-      <stop offset="1" stop-color="#E0E7FF"></stop>
+      <stop offset="0" stop-color="#EEF3FF"></stop>
+      <stop offset="1" stop-color="#DCE5FF"></stop>
     </linearGradient>
   </defs>
   <rect width="480" height="360" rx="28" fill="url(#bgClasseCarre)"></rect>
-  <circle cx="430" cy="50" r="30" fill="#C7D2FE" opacity="0.55"></circle>
-  <circle cx="35" cy="310" r="40" fill="#C7D2FE" opacity="0.45"></circle>
+  <circle cx="430" cy="50" r="30" fill="#C9D6FF" opacity="0.55"></circle>
+  <circle cx="35" cy="310" r="40" fill="#C9D6FF" opacity="0.45"></circle>
 
   <g transform="translate(345,20)">
-    <rect x="0" y="0" width="118" height="76" rx="8" fill="#312e81"></rect>
-    <rect x="-7" y="73" width="132" height="9" rx="4" fill="#4338CA"></rect>
-    <text x="59" y="34" font-family="Georgia, serif" font-size="18" fill="#c7d2fe" text-anchor="middle" font-weight="700">7 + 5</text>
-    <text x="59" y="57" font-family="Georgia, serif" font-size="16" fill="#c7d2fe" text-anchor="middle" font-weight="700">= 12</text>
+    <rect x="0" y="0" width="118" height="76" rx="8" fill="#10298F"></rect>
+    <rect x="-7" y="73" width="132" height="9" rx="4" fill="#1B45D9"></rect>
+    <text x="59" y="34" font-family="Georgia, serif" font-size="18" fill="#C9D6FF" text-anchor="middle" font-weight="700">7 + 5</text>
+    <text x="59" y="57" font-family="Georgia, serif" font-size="16" fill="#C9D6FF" text-anchor="middle" font-weight="700">= 12</text>
   </g>
 
 <g transform="translate(130,0)">
-  <ellipse cx="0" cy="321.7" rx="45.885" ry="8.549999999999999" fill="#3730A3" opacity="0.10"></ellipse>
-  <path d="M-28.5 228.60000000000002 C-34.2 276.67 -43.699999999999996 259.19 -43.699999999999996 316 L43.699999999999996 316 C43.699999999999996 259.19 34.2 276.67 28.5 228.60000000000002 Z" fill="#4F46E5"></path>
-  <path d="M24.7 238.10000000000002 L58.89999999999999 211.50000000000003" stroke="#4F46E5" stroke-width="13.299999999999999" stroke-linecap="round"></path>
+  <ellipse cx="0" cy="321.7" rx="45.885" ry="8.549999999999999" fill="#1B3FC4" opacity="0.10"></ellipse>
+  <path d="M-28.5 228.60000000000002 C-34.2 276.67 -43.699999999999996 259.19 -43.699999999999996 316 L43.699999999999996 316 C43.699999999999996 259.19 34.2 276.67 28.5 228.60000000000002 Z" fill="#2454FF"></path>
+  <path d="M24.7 238.10000000000002 L58.89999999999999 211.50000000000003" stroke="#2454FF" stroke-width="13.299999999999999" stroke-linecap="round"></path>
   <circle cx="58.89999999999999" cy="211.50000000000003" r="8.549999999999999" fill="#F2C299"></circle>
   <circle cx="0" cy="202.0" r="32.3" fill="#F2C299"></circle>
   <path d="M-32.3 198.0 C-35.3 156.78 35.3 156.78 32.3 198.0 C36.3 219.765 26.299999999999997 232.685 22.299999999999997 219.765 L22.299999999999997 197.155 L-22.299999999999997 197.155 L-22.299999999999997 219.765 C-26.299999999999997 232.685 -36.3 219.765 -32.3 198.0 Z" fill="#5B3A29"></path>
@@ -30,7 +30,7 @@
   <circle cx="20.0" cy="209.1" r="5.2" fill="#F0A98A" opacity="0.55"></circle>
   </g>
 <g transform="translate(222,0)">
-  <ellipse cx="0" cy="351.72" rx="29.946" ry="5.58" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="351.72" rx="29.946" ry="5.58" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-18.6 290.96 C-22.32 322.332 -28.52 310.924 -28.52 348 L28.52 348 C28.52 310.924 22.32 322.332 18.6 290.96 Z" fill="#F59E0B"></path>
   <path d="M-16.12 297.15999999999997 L-38.44 279.79999999999995" stroke="#F59E0B" stroke-width="8.68" stroke-linecap="round"></path>
   <circle cx="-38.44" cy="279.79999999999995" r="5.58" fill="#8D5A3B"></circle>
@@ -49,7 +49,7 @@
   <circle cx="13.1" cy="278.2" r="3.4" fill="#F0A98A" opacity="0.55"></circle>
   </g>
 <g transform="translate(300,0)">
-  <ellipse cx="0" cy="355.48" rx="28.014" ry="5.22" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="355.48" rx="28.014" ry="5.22" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-17.4 298.64 C-20.88 327.988 -26.68 317.316 -26.68 352 L26.68 352 C26.68 317.316 20.88 327.988 17.4 298.64 Z" fill="#F472B6"></path>
   <circle cx="0" cy="282.4" r="19.72" fill="#F7D9B6"></circle>
   <path d="M-19.72 280.4 C-19.72 256.76399999999995 19.72 256.76399999999995 19.72 280.4 C19.72 267.60999999999996 -19.72 267.60999999999996 -19.72 280.4 Z" fill="#8a5a2b"></path>
@@ -62,7 +62,7 @@
   <circle cx="12.2" cy="286.7" r="3.2" fill="#F0A98A" opacity="0.55"></circle>
   </g>
 <g transform="translate(372,0)">
-  <ellipse cx="0" cy="353.6" rx="28.98" ry="5.3999999999999995" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="353.6" rx="28.98" ry="5.3999999999999995" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-18.0 294.8 C-21.6 325.16 -27.599999999999998 314.12 -27.599999999999998 350 L27.599999999999998 350 C27.599999999999998 314.12 21.6 325.16 18.0 294.8 Z" fill="#34D399"></path>
   <circle cx="0" cy="278.00000000000006" r="20.4" fill="#E8B48A"></circle>
   <path d="M-20.4 276.00000000000006 C-20.4 250.46000000000006 20.4 250.46000000000006 20.4 276.00000000000006 C20.4 263.7200000000001 -20.4 263.7200000000001 -20.4 276.00000000000006 Z" fill="#2b2320"></path>
@@ -76,7 +76,7 @@
   <line x1="-1.8" y1="279.2" x2="1.8" y2="279.2" stroke="#2b2320" stroke-width="2"></line>
   </g>
 <g transform="translate(58,0)">
-  <ellipse cx="0" cy="355.36" rx="27.048000000000002" ry="5.040000000000001" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="355.36" rx="27.048000000000002" ry="5.040000000000001" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-16.8 300.48 C-20.16 328.81600000000003 -25.76 318.512 -25.76 352 L25.76 352 C25.76 318.512 20.16 328.81600000000003 16.8 300.48 Z" fill="#60A5FA"></path>
   <circle cx="0" cy="284.8" r="19.040000000000003" fill="#F2C299"></circle>
   <circle cx="-18.8" cy="276.5" r="6.5" fill="#C2410C"></circle>

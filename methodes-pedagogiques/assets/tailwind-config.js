@@ -6,7 +6,7 @@ tailwind.config = {
         ink: '#211F1A',
         'ink-soft': '#7A7566',
         'ink-muted': '#4B473C',
-        indigo: { DEFAULT: '#8B5CF6', 50: '#F5F3FF', 100: '#EDE9FE' }
+        indigo: { DEFAULT: '#2454FF', 50: '#F0F4FF', 100: '#E6ECFF' }
       },
       fontFamily: {
         display: ['Fraunces', 'Georgia', 'serif'],

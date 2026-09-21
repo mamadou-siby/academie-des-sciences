@@ -1,25 +1,25 @@
 <svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Une professeure sourit avec un petit groupe de quatre élèves autour d’un tableau">
   <defs>
     <linearGradient id="bgClasse" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EEF2FF"></stop>
-      <stop offset="1" stop-color="#E0E7FF"></stop>
+      <stop offset="0" stop-color="#EEF3FF"></stop>
+      <stop offset="1" stop-color="#DCE5FF"></stop>
     </linearGradient>
   </defs>
   <rect width="800" height="420" rx="28" fill="url(#bgClasse)"></rect>
-  <circle cx="740" cy="60" r="40" fill="#C7D2FE" opacity="0.55"></circle>
-  <circle cx="50" cy="360" r="52" fill="#C7D2FE" opacity="0.45"></circle>
+  <circle cx="740" cy="60" r="40" fill="#C9D6FF" opacity="0.55"></circle>
+  <circle cx="50" cy="360" r="52" fill="#C9D6FF" opacity="0.45"></circle>
 
   <g transform="translate(560,44)">
-    <rect x="0" y="0" width="170" height="108" rx="10" fill="#312e81"></rect>
-    <rect x="-10" y="104" width="190" height="12" rx="4" fill="#4338CA"></rect>
-    <text x="85" y="46" font-family="Georgia, serif" font-size="26" fill="#c7d2fe" text-anchor="middle" font-weight="700">7 + 5</text>
-    <text x="85" y="80" font-family="Georgia, serif" font-size="22" fill="#c7d2fe" text-anchor="middle" font-weight="700">= 12</text>
+    <rect x="0" y="0" width="170" height="108" rx="10" fill="#10298F"></rect>
+    <rect x="-10" y="104" width="190" height="12" rx="4" fill="#1B45D9"></rect>
+    <text x="85" y="46" font-family="Georgia, serif" font-size="26" fill="#C9D6FF" text-anchor="middle" font-weight="700">7 + 5</text>
+    <text x="85" y="80" font-family="Georgia, serif" font-size="22" fill="#C9D6FF" text-anchor="middle" font-weight="700">= 12</text>
   </g>
 
 <g transform="translate(210,0)">
-  <ellipse cx="0" cy="370.9" rx="55.545" ry="10.35" fill="#3730A3" opacity="0.10"></ellipse>
-  <path d="M-34.5 258.20000000000005 C-41.4 316.39000000000004 -52.9 295.23 -52.9 364 L52.9 364 C52.9 295.23 41.4 316.39000000000004 34.5 258.20000000000005 Z" fill="#4F46E5"></path>
-  <path d="M29.9 269.70000000000005 L71.3 237.50000000000006" stroke="#4F46E5" stroke-width="16.099999999999998" stroke-linecap="round"></path>
+  <ellipse cx="0" cy="370.9" rx="55.545" ry="10.35" fill="#1B3FC4" opacity="0.10"></ellipse>
+  <path d="M-34.5 258.20000000000005 C-41.4 316.39000000000004 -52.9 295.23 -52.9 364 L52.9 364 C52.9 295.23 41.4 316.39000000000004 34.5 258.20000000000005 Z" fill="#2454FF"></path>
+  <path d="M29.9 269.70000000000005 L71.3 237.50000000000006" stroke="#2454FF" stroke-width="16.099999999999998" stroke-linecap="round"></path>
   <circle cx="71.3" cy="237.50000000000006" r="10.35" fill="#F2C299"></circle>
   <circle cx="0" cy="226.0" r="39.099999999999994" fill="#F2C299"></circle>
   <path d="M-39.099999999999994 222.0 C-42.099999999999994 171.26000000000002 42.099999999999994 171.26000000000002 39.099999999999994 222.0 C43.099999999999994 247.505 33.099999999999994 263.145 29.099999999999994 247.505 L29.099999999999994 220.135 L-29.099999999999994 220.135 L-29.099999999999994 247.505 C-33.099999999999994 263.145 -43.099999999999994 247.505 -39.099999999999994 222.0 Z" fill="#5B3A29"></path>
@@ -30,7 +30,7 @@
   <circle cx="24.2" cy="234.6" r="6.3" fill="#F0A98A" opacity="0.55"></circle>
   </g>
 <g transform="translate(340,0)">
-  <ellipse cx="0" cy="410.44" rx="35.742" ry="6.66" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="410.44" rx="35.742" ry="6.66" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-22.2 337.92 C-26.64 375.36400000000003 -34.04 361.748 -34.04 406 L34.04 406 C34.04 361.748 26.64 375.36400000000003 22.2 337.92 Z" fill="#F59E0B"></path>
   <path d="M-19.24 345.32 L-45.879999999999995 324.6" stroke="#F59E0B" stroke-width="10.36" stroke-linecap="round"></path>
   <circle cx="-45.879999999999995" cy="324.6" r="6.66" fill="#8D5A3B"></circle>
@@ -49,7 +49,7 @@
   <circle cx="15.6" cy="322.7" r="4.0" fill="#F0A98A" opacity="0.55"></circle>
   </g>
 <g transform="translate(445,0)">
-  <ellipse cx="0" cy="416.2" rx="33.809999999999995" ry="6.3" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="416.2" rx="33.809999999999995" ry="6.3" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-21.0 347.6 C-25.2 383.02000000000004 -32.199999999999996 370.14000000000004 -32.199999999999996 412 L32.199999999999996 412 C32.199999999999996 370.14000000000004 25.2 383.02000000000004 21.0 347.6 Z" fill="#F472B6"></path>
   <circle cx="0" cy="328.0" r="23.799999999999997" fill="#F7D9B6"></circle>
   <path d="M-23.799999999999997 326.0 C-23.799999999999997 297.06 23.799999999999997 297.06 23.799999999999997 326.0 C23.799999999999997 310.15 -23.799999999999997 310.15 -23.799999999999997 326.0 Z" fill="#8a5a2b"></path>
@@ -62,7 +62,7 @@
   <circle cx="14.8" cy="333.2" r="3.8" fill="#F0A98A" opacity="0.55"></circle>
   </g>
 <g transform="translate(545,0)">
-  <ellipse cx="0" cy="412.32" rx="34.775999999999996" ry="6.4799999999999995" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="412.32" rx="34.775999999999996" ry="6.4799999999999995" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-21.599999999999998 341.76 C-25.919999999999998 378.192 -33.12 364.94399999999996 -33.12 408 L33.12 408 C33.12 364.94399999999996 25.919999999999998 378.192 21.599999999999998 341.76 Z" fill="#34D399"></path>
   <circle cx="0" cy="321.59999999999997" r="24.48" fill="#E8B48A"></circle>
   <path d="M-24.48 319.59999999999997 C-24.48 288.55199999999996 24.48 288.55199999999996 24.48 319.59999999999997 C24.48 304.46399999999994 -24.48 304.46399999999994 -24.48 319.59999999999997 Z" fill="#2b2320"></path>
@@ -76,7 +76,7 @@
   <line x1="-3.6" y1="323.1" x2="3.6" y2="323.1" stroke="#2b2320" stroke-width="2"></line>
   </g>
 <g transform="translate(100,0)">
-  <ellipse cx="0" cy="418.08" rx="32.844" ry="6.12" fill="#3730A3" opacity="0.10"></ellipse>
+  <ellipse cx="0" cy="418.08" rx="32.844" ry="6.12" fill="#1B3FC4" opacity="0.10"></ellipse>
   <path d="M-20.400000000000002 351.44 C-24.480000000000004 385.848 -31.28 373.336 -31.28 414 L31.28 414 C31.28 373.336 24.480000000000004 385.848 20.400000000000002 351.44 Z" fill="#60A5FA"></path>
   <circle cx="0" cy="332.4" r="23.12" fill="#F2C299"></circle>
   <circle cx="-22.8" cy="322.3" r="7.9" fill="#C2410C"></circle>

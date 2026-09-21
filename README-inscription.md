@@ -82,3 +82,26 @@ extension distincte de ce backend (tunnel `commande.html`, fonctions
 👉 Voir **STRIPE-SETUP.md** pour la création des produits Stripe (valeurs
 déjà pré-remplies, il n'y a qu'à recopier) et la liste complète des
 variables d'environnement à ajouter sur Netlify.
+
+
+## Cours d'essai d'anglais (Académie des Langues)
+
+Le formulaire `inscription.html` propose deux académies : **Académie des Langues**
+(anglais) et **Académie des Sciences** (maths, sciences, logique). Aucune
+modification de la base de données n'est nécessaire : la séparation repose sur le
+**nom du niveau**.
+
+1. Dans l'admin, onglet **Niveaux**, créez les niveaux d'anglais avec un nom qui
+   **commence par « Anglais »** (exemples à adapter : « Anglais — dès 4 ans »,
+   « Anglais — collège », « Anglais — lycée »). Les autres niveaux restent ceux de
+   l'Académie des Sciences.
+2. Onglet **Dates** : créez les dates de cours d'essai d'anglais en les rattachant
+   à ces niveaux (et au lieu, si besoin). Une date sans niveau reste valable pour
+   tous les niveaux, maths comme anglais.
+3. Onglet **Créneaux** : inchangé (un créneau sans date vaut pour toutes les dates).
+4. Liens : `inscription.html?academie=langues` ouvre directement le formulaire en
+   mode anglais ; `?academie=sciences` (ou sans paramètre) en mode maths/sciences.
+
+Les dates proposées dépendent désormais du **niveau** (et du lieu) choisis.
+Sans niveau d'anglais actif, le parent voit un message l'invitant à écrire à
+contact@aven-co.com.

@@ -24,7 +24,11 @@ async function sendInscriptionEmail(details) {
   const lines = [];
   lines.push(`Bonjour ${details.nom_prenom_parent},`);
   lines.push('');
-  lines.push('Votre inscription à l’atelier découverte gratuit est confirmée. Voici le récapitulatif :');
+  // Les niveaux de l'École d'Anglais commencent par « Anglais » (voir README-inscription.md).
+  const isEnglish = /^\s*anglais/i.test(details.niveau || '');
+  lines.push(isEnglish
+    ? 'Votre inscription au cours d’essai d’anglais (Académie des Langues) est confirmée. Voici le récapitulatif :'
+    : 'Votre inscription à l’atelier découverte gratuit est confirmée. Voici le récapitulatif :');
   lines.push('');
   lines.push(`- Lieu : ${details.lieu}`);
   lines.push(`- Niveau : ${details.niveau}`);
@@ -34,7 +38,7 @@ async function sendInscriptionEmail(details) {
   lines.push('');
   lines.push('Nous vous attendons avec plaisir !');
   lines.push('');
-  lines.push("Aven & Co — L'Académie des Sciences");
+  lines.push("Aven & Co — L'Académie");
 
   const emailBody = lines.join('\n');
   const emailHtml =

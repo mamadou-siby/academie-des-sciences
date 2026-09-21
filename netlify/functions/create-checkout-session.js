@@ -13,7 +13,7 @@ function isValidPhone(phone) {
 // POST /api/create-checkout-session
 // Body attendu :
 // {
-//   code_offre: "PACK_PRIMAIRE_3H" | ... | "ABONNEMENT_75" | "ABONNEMENT_90",
+//   code_offre: "PACK_PRIMAIRE_3H" | ... | "ABONNEMENT_75" | "ABONNEMENT_90" | "ABONNEMENT_ANGLAIS_75" | "ABONNEMENT_ANGLAIS_90",
 //   eleve: { prenom, nom, classe, etablissement, matieres, objectif, difficultes, echeance, niveau },
 //   parent: { prenom, nom, email, telephone, adresse_facturation }
 // }

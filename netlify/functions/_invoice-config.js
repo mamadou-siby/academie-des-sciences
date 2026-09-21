@@ -6,7 +6,7 @@
 // partie de votre activité, ajustez VAT_RATE en conséquence.
 
 module.exports = {
-  SELLER_TRADE_NAME: "Aven & Co — L'Académie des Sciences",
+  SELLER_TRADE_NAME: "Aven & Co — L'Académie",
   SELLER_LEGAL_NAME: 'AVEN',
   SELLER_LEGAL_FORM: 'SASU',
   SELLER_SIRET: '934 294 299 00011',

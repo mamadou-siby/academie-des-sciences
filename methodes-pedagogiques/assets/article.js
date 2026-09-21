@@ -47,7 +47,7 @@
           });
           active.classList.remove('text-ink-soft');
           active.classList.add('text-indigo');
-          active.style.borderLeftColor = '#8B5CF6';
+          active.style.borderLeftColor = '#2454FF';
         });
       }, { rootMargin: '-20% 0px -70% 0px' });
       headings.forEach(function (h) { observer.observe(h); });

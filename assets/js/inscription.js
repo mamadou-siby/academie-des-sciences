@@ -12,6 +12,37 @@
   var recapList = document.getElementById('recap-list');
   var submitBtn = document.getElementById('submit-btn');
 
+  // --- Choix de l'académie (Langues = anglais / Sciences = maths, sciences, logique) ---
+  // Les niveaux de l'École d'Anglais sont créés dans l'admin avec un nom qui
+  // commence par « Anglais » (ex. « Anglais — collège »). Les autres niveaux
+  // restent ceux de l'Académie des Sciences. Aucune modification de la base.
+  var academieCards = document.querySelectorAll('[data-academie]');
+  var noticeEl = document.getElementById('niveau-notice');
+  var kickerEl = document.getElementById('inscr-kicker');
+  var titleEl = document.getElementById('inscr-title');
+  var leadEl = document.getElementById('inscr-lead');
+  var allNiveaux = [];
+  var academie = 'sciences';
+  var datesToken = 0;
+  var TEXTS = {
+    sciences: {
+      label: 'Académie des Sciences',
+      kicker: kickerEl ? kickerEl.textContent : '',
+      title: titleEl ? titleEl.textContent : '',
+      lead: leadEl ? leadEl.textContent : ''
+    },
+    langues: {
+      label: 'Académie des Langues · Anglais',
+      kicker: 'Cours d’essai · Académie des Langues',
+      title: 'Réserver un cours d’essai d’anglais',
+      lead: 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
+    }
+  };
+  function isEnglishNiveau(n) { return /^\s*anglais/i.test((n && n.nom) || ''); }
+  function niveauxForAcademie() {
+    return allNiveaux.filter(function (n) { return academie === 'langues' ? isEnglishNiveau(n) : !isEnglishNiveau(n); });
+  }
+
   // Données de secours utilisées UNIQUEMENT si l'API (/api/lieux, /api/niveaux,
   // /api/dates, /api/creneaux) n'est pas joignable — par exemple si ce site
   // est prévisualisé sans que les Netlify Functions / la base de données ne
@@ -29,7 +60,10 @@
       { id: 'demo-2', nom: 'Cycle 2 (CP, CE1, CE2)' },
       { id: 'demo-3', nom: 'Cycle 3 (CM1, CM2, 6e)' },
       { id: 'demo-4', nom: 'Cycle 4 (5e, 4e, 3e)' },
-      { id: 'demo-5', nom: 'Lycée (2nde, 1re, Terminale)' }
+      { id: 'demo-5', nom: 'Lycée (2nde, 1re, Terminale)' },
+      { id: 'demo-a1', nom: 'Anglais — dès 4 ans' },
+      { id: 'demo-a2', nom: 'Anglais — collège' },
+      { id: 'demo-a3', nom: 'Anglais — lycée' }
     ],
     dates: [
       { id: 'demo-1', date: nextSaturdayISO(0) },
@@ -88,21 +122,95 @@
     });
   }
 
+  function resetCreneau() {
+    creneauSelect.disabled = true;
+    fillSelect(creneauSelect, [], 'Sélectionnez d’abord une date', false);
+  }
+
+  function resetDates(message) {
+    datesToken++;
+    dateSelect.disabled = true;
+    fillSelect(dateSelect, [], message || 'Choisissez d’abord un niveau', true);
+    resetCreneau();
+  }
+
+  // Les dates dépendent du niveau (et du lieu) : l'admin peut réserver une date
+  // à un niveau précis, par exemple un atelier d'anglais.
+  function refreshDates() {
+    if (!niveauSelect.value) { resetDates(); return; }
+    if (usingFallback) {
+      fillSelect(dateSelect, FALLBACK.dates, 'Sélectionner une date', true);
+      dateSelect.disabled = false;
+      resetCreneau();
+      return;
+    }
+    var token = ++datesToken;
+    dateSelect.disabled = true;
+    fillSelect(dateSelect, [], 'Chargement des dates…', true);
+    resetCreneau();
+    var query = '?niveau_id=' + encodeURIComponent(niveauSelect.value) +
+      (lieuSelect.value ? '&lieu_id=' + encodeURIComponent(lieuSelect.value) : '');
+    fetchJSON('/dates' + query)
+      .then(function (dates) {
+        if (token !== datesToken) return;
+        if (!dates.length) {
+          fillSelect(dateSelect, [], 'Aucune date disponible pour ce choix', true);
+          return;
+        }
+        fillSelect(dateSelect, dates, 'Sélectionner une date', true);
+        dateSelect.disabled = false;
+      })
+      .catch(function () {
+        if (token !== datesToken) return;
+        fillSelect(dateSelect, [], 'Dates indisponibles', true);
+      });
+  }
+
+  function setAcademie(next) {
+    academie = next === 'langues' ? 'langues' : 'sciences';
+    Array.prototype.forEach.call(academieCards, function (card) {
+      var on = card.dataset.academie === academie;
+      card.classList.toggle('selected', on);
+      card.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    var t = TEXTS[academie];
+    if (kickerEl) kickerEl.textContent = t.kicker;
+    if (titleEl) titleEl.textContent = t.title;
+    if (leadEl) leadEl.textContent = t.lead;
+    var list = niveauxForAcademie();
+    fillSelect(niveauSelect, list, 'Sélectionner un niveau', false);
+    if (!list.length) {
+      noticeEl.textContent = academie === 'langues'
+        ? 'Aucun créneau de cours d’essai d’anglais n’est ouvert pour le moment. Écrivez-nous à contact@aven-co.com : nous vous répondrons dès l’ouverture des prochaines dates.'
+        : 'Aucun niveau n’est ouvert pour le moment.';
+      noticeEl.style.display = 'block';
+    } else {
+      noticeEl.style.display = 'none';
+    }
+    resetDates();
+  }
+
+  Array.prototype.forEach.call(academieCards, function (card) {
+    card.addEventListener('click', function () { setAcademie(card.dataset.academie); });
+  });
+  niveauSelect.addEventListener('change', refreshDates);
+  lieuSelect.addEventListener('change', function () { if (niveauSelect.value) refreshDates(); });
+
   function loadOptions() {
-    Promise.all([fetchJSON('/lieux'), fetchJSON('/niveaux'), fetchJSON('/dates')])
+    Promise.all([fetchJSON('/lieux'), fetchJSON('/niveaux')])
       .then(function (results) {
         fillSelect(lieuSelect, results[0], 'Sélectionner un lieu', false);
-        fillSelect(niveauSelect, results[1], 'Sélectionner un niveau', false);
-        fillSelect(dateSelect, results[2], 'Sélectionner une date', true);
+        allNiveaux = results[1];
       })
       .catch(function () {
         usingFallback = true;
         fillSelect(lieuSelect, FALLBACK.lieux, 'Sélectionner un lieu', false);
-        fillSelect(niveauSelect, FALLBACK.niveaux, 'Sélectionner un niveau', false);
-        fillSelect(dateSelect, FALLBACK.dates, 'Sélectionner une date', true);
+        allNiveaux = FALLBACK.niveaux;
         apiErrorEl.style.display = 'block';
       })
       .then(function () {
+        var wanted = new URLSearchParams(window.location.search).get('academie');
+        setAcademie(wanted === 'langues' ? 'langues' : 'sciences');
         loadingEl.style.display = 'none';
         form.style.display = 'block';
       });
@@ -185,6 +293,7 @@
     form.style.display = 'none';
     successEl.style.display = 'block';
     recapList.innerHTML = [
+      ['Académie', TEXTS[academie].label],
       ['Lieu', recap.lieu],
       ['Niveau', recap.niveau],
       ['Date', recap.date],

@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inscription & paiement — Aven & Co</title>
-<meta name="description" content="Choisissez votre pack de 7 semaines ou votre formule d’abonnement, renseignez les informations de l’élève et du parent, puis payez en ligne en toute sécurité.">
+<meta name="description" content="Choisissez votre pack de 7 semaines ou votre formule d’abonnement (École d’Anglais ou Académie des Sciences), renseignez les informations de l’élève et du parent, puis payez en ligne en toute sécurité.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="topbar">Ressources pédagogiques accessibles à tous</div>
 <header class="header">
   <div class="container nav">
     <a class="brand" href="index.html">
       <span class="brand-mark">✦</span>
-      <span>Aven & Co<small>L’Académie des Sciences</small></span>
+      <span>Aven & Co<small>L’Académie</small></span>
     </a>
     <nav class="menu">
-      <a href="cours.html">Nos cours</a>
+      <a href="anglais.html">Académie des Langues</a>
+      <a href="cours.html">Académie des Sciences</a>
     </nav>
   </div>
 </header>
 
 <main>
   <section class="page-hero"><div class="container">
-    <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Nos cours</a> / Inscription &amp; paiement</div>
+    <div class="breadcrumb"><a href="index.html">Accueil</a> / Inscription &amp; paiement</div>
     <div class="kicker">Paiement sécurisé · Stripe</div>
     <h1 class="page-title">Finaliser une inscription</h1>
-    <p class="lead">Choisissez votre formule, renseignez les informations de l’élève et du parent, puis payez en ligne en toute sécurité. Vos coordonnées bancaires ne transitent jamais par notre site : elles sont saisies directement sur la page sécurisée Stripe.</p>
+    <p class="lead">Choisissez votre formule, renseignez les informations de l’élève et du parent, puis payez en ligne en toute sécurité. Vos coordonnées bancaires ne transitent jamais par notre site : elles sont saisies directement sur la page sécurisée Stripe.</p>
   </div></section>
 
   <section class="section"><div class="container" style="max-width:820px">
@@ -44,7 +44,7 @@
 
     <!-- ÉTAPE 1 : type d'offre -->
     <div class="commande-panel active form-card" data-panel="1">
-      <div class="form-section-title">Quel type d’accompagnement ?</div>
+      <div class="form-section-title">Quel type d’accompagnement ?</div>
       <div class="offer-choice-grid">
         <button type="button" class="offer-choice-card" data-type="pack_7_semaines">
           <h3>Pack 7 semaines</h3>
@@ -52,7 +52,7 @@
         </button>
         <button type="button" class="offer-choice-card" data-type="abonnement">
           <h3>Abonnement mensuel</h3>
-          <p>Cours annuels réguliers (30 séances), réglés en un acompte puis 10 mensualités. Aucun renouvellement automatique au-delà.</p>
+          <p>Cours annuels réguliers (30 séances) d’anglais, de maths, sciences ou informatique, réglés en un acompte puis 10 mensualités. Aucun renouvellement automatique au-delà.</p>
         </button>
       </div>
       <div class="commande-nav"><span></span><button type="button" class="btn primary" id="next-1" disabled>Continuer</button></div>
@@ -80,17 +80,31 @@
       </div>
 
       <div id="abonnement-formule-block" style="display:none">
-        <div class="form-section-title">Formule d’abonnement</div>
+        <div class="form-section-title">École d’Anglais · <span class="nw">4–18 ans</span></div>
+        <div class="formule-choice-grid two" id="abonnement-formule-grid-anglais">
+          <button type="button" class="formule-choice-card" data-code="ABONNEMENT_ANGLAIS_75">
+            <span class="badge">1h / semaine</span>
+            <div class="price">75 € <small>/mois</small></div>
+            <div class="detail">Acompte initial : 45 € · puis 10 mensualités de 75 € · aucun renouvellement au-delà</div>
+          </button>
+          <button type="button" class="formule-choice-card" data-code="ABONNEMENT_ANGLAIS_90">
+            <span class="badge">1h30 / semaine</span>
+            <div class="price">90 € <small>/mois</small></div>
+            <div class="detail">Acompte initial : 60 € · puis 10 mensualités de 90 € · aucun renouvellement au-delà</div>
+          </button>
+        </div>
+
+        <div class="form-section-title" style="margin-top:26px">Académie des Sciences · maths, sciences &amp; informatique</div>
         <div class="formule-choice-grid two" id="abonnement-formule-grid">
           <button type="button" class="formule-choice-card" data-code="ABONNEMENT_75">
             <span class="badge">1h / semaine</span>
             <div class="price">75 € <small>/mois</small></div>
-            <div class="detail">Acompte initial : 45 € · puis 10 mensualités de 75 € · aucun renouvellement au-delà</div>
+            <div class="detail">Acompte initial : 45 € · puis 10 mensualités de 75 € · aucun renouvellement au-delà</div>
           </button>
           <button type="button" class="formule-choice-card" data-code="ABONNEMENT_90">
             <span class="badge">1h30 / semaine</span>
             <div class="price">90 € <small>/mois</small></div>
-            <div class="detail">Acompte initial : 60 € · puis 10 mensualités de 90 € · aucun renouvellement au-delà</div>
+            <div class="detail">Acompte initial : 60 € · puis 10 mensualités de 90 € · aucun renouvellement au-delà</div>
           </button>
         </div>
       </div>
@@ -111,7 +125,7 @@
       </div>
       <div class="form-grid" style="margin-top:18px">
         <div class="form-group full"><label for="eleve_etablissement">Établissement</label><input type="text" id="eleve_etablissement"></div>
-        <div class="form-group full"><label for="eleve_matieres">Matière(s)</label><input type="text" id="eleve_matieres" placeholder="Ex. mathématiques, physique-chimie"></div>
+        <div class="form-group full"><label for="eleve_matieres">Matière(s)</label><input type="text" id="eleve_matieres" placeholder="Ex. anglais, mathématiques, physique-chimie"></div>
         <div class="form-group full"><label for="eleve_objectif">Objectif</label><input type="text" id="eleve_objectif" placeholder="Ex. consolider les bases, préparer le Baccalauréat"></div>
         <div class="form-group full"><label for="eleve_difficultes">Difficultés éventuelles</label><input type="text" id="eleve_difficultes"></div>
         <div class="form-group full"><label for="eleve_echeance">Échéance éventuelle</label><input type="text" id="eleve_echeance" placeholder="Ex. contrôle le 15 novembre"></div>
@@ -166,7 +180,7 @@
         <button type="button" class="btn ghost" data-back="4">Retour</button>
         <button type="button" class="btn primary" id="pay-btn">Procéder au paiement sécurisé</button>
       </div>
-      <p class="form-note">En cliquant sur « Procéder au paiement sécurisé », vous serez redirigé vers la page de paiement sécurisée Stripe. Aucune donnée bancaire n’est collectée sur ce site.</p>
+      <p class="form-note">En cliquant sur « Procéder au paiement sécurisé », vous serez redirigé vers la page de paiement sécurisée Stripe. Aucune donnée bancaire n’est collectée sur ce site.</p>
     </div>
 
   </div></section>

@@ -107,6 +107,35 @@ const OFFERS = {
     montantAffiche: 90,
     montantAcompte: 60,
     cyclesPrevus: 10
+  },
+
+  // ---- ABONNEMENTS ÉCOLE D'ANGLAIS — même modèle tarifaire que ci-dessus ----
+  // Mêmes montants et même mécanique (30 séances, acompte + 10 mensualités puis
+  // arrêt automatique). Codes et variables d'environnement distincts pour
+  // pouvoir suivre l'anglais séparément dans Stripe et dans l'admin. Rien à
+  // changer côté base de données : type_offre reste 'abonnement'.
+  // (Si vous préférez ne créer aucun nouveau produit Stripe, pointez ces
+  // variables vers les mêmes Price ID que STRIPE_PRICE_ABONNEMENT_75/90 et
+  // STRIPE_PRICE_ACOMPTE_75/90 — voir STRIPE-SETUP.md, partie 2 bis.)
+  ABONNEMENT_ANGLAIS_75: {
+    typeOffre: 'abonnement',
+    mode: 'subscription',
+    envPrice: 'STRIPE_PRICE_ANGLAIS_75',
+    envAcompte: 'STRIPE_PRICE_ACOMPTE_ANGLAIS_75',
+    label: 'Abonnement École d’Anglais — Formule 1h/semaine (75 €/mois)',
+    montantAffiche: 75,
+    montantAcompte: 45,
+    cyclesPrevus: 10
+  },
+  ABONNEMENT_ANGLAIS_90: {
+    typeOffre: 'abonnement',
+    mode: 'subscription',
+    envPrice: 'STRIPE_PRICE_ANGLAIS_90',
+    envAcompte: 'STRIPE_PRICE_ACOMPTE_ANGLAIS_90',
+    label: 'Abonnement École d’Anglais — Formule 1h30/semaine (90 €/mois)',
+    montantAffiche: 90,
+    montantAcompte: 60,
+    cyclesPrevus: 10
   }
 };
 

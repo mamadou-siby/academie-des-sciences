@@ -58,7 +58,7 @@ async function sendConfirmationEmail(supabase, commandeId) {
   lines.push('');
   lines.push('Notre équipe revient vers vous prochainement pour finaliser les créneaux.');
   lines.push('');
-  lines.push("Aven & Co — L'Académie des Sciences");
+  lines.push("Aven & Co — L'Académie");
 
   const emailBody = lines.join('\n');
 

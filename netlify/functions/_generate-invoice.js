@@ -32,7 +32,7 @@ async function generateInvoicePdf(commande, numeroFacture) {
 
   const INK = rgb(0.09, 0.09, 0.11);
   const MUTED = rgb(0.36, 0.37, 0.45);
-  const ACCENT = rgb(0.31, 0.27, 0.9); // #4F46E5
+  const ACCENT = rgb(0.141, 0.329, 1); // #2454FF
 
   let y = 800;
   const left = 50;
@@ -55,7 +55,7 @@ async function generateInvoicePdf(commande, numeroFacture) {
 
   // En-tête
   text('AVEN & CO', left, y, { size: 20, bold: true, color: ACCENT });
-  text("L'Académie des Sciences", left, y - 16, { size: 10, color: MUTED });
+  text("L'Académie", left, y - 16, { size: 10, color: MUTED });
 
   textRight('FACTURE', right, y, { size: 20, bold: true });
   textRight(numeroFacture, right, y - 18, { size: 11, color: MUTED });
