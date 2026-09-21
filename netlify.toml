@@ -5,6 +5,14 @@
 [functions]
   node_bundler = "esbuild"
 
+# ---- Adresse technique Netlify -> domaine principal (référencement) ----
+# Évite que Google voie deux copies du site (…netlify.app et aven-co.com).
+[[redirects]]
+  from = "https://strong-bavarois-af02f3.netlify.app/*"
+  to = "https://aven-co.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
