@@ -16,6 +16,9 @@ import glob, html, json, os, re
 BASE = 'https://aven-co.com'
 LASTMOD = '2026-09-21'
 SITE_NAME = 'Aven & Co'
+# Vérification Google Search Console (méthode « balise HTML »), placée sur la page d'accueil.
+# Ne la supprimez pas : Google la revérifie régulièrement.
+GOOGLE_SITE_VERIFICATION = 'MgDyUEdJKSrZh3wK7XEgM6jIGTlDqUgGj0k3wuBo30s'
 GUIDE_FOLDERS = ['methodes-pedagogiques', 'memorisation', 'organisation', 'choisir-ecole', 'bien-etre', 'maternelle', 'anglais']
 NOINDEX = {'admin.html', 'commande.html', 'inscription-confirmee.html'}   # pages privées / transactionnelles
 SKIP = {'admin.html'}
@@ -63,6 +66,8 @@ def block(path, s):
     is_guide = folder in GUIDE_FOLDERS
     lines = ['<!-- seo:start -->']
     lines.append('<link rel="canonical" href="%s">' % url)
+    if path == 'index.html' and GOOGLE_SITE_VERIFICATION:
+        lines.append('<meta name="google-site-verification" content="%s">' % GOOGLE_SITE_VERIFICATION)
     if path in NOINDEX and 'name="robots"' not in s:
         lines.append('<meta name="robots" content="noindex, follow">')
     lines.append('<link rel="icon" href="/favicon.ico" sizes="any">')
