@@ -684,8 +684,5 @@ p,li,.lead,figcaption span{text-wrap:pretty}
   .hero-copy .actions .btn{padding:13px 17px;font-size:14px;white-space:nowrap}
 }
 
-/* Mode temporaire « à recontacter » du formulaire d'inscription */
 .form-group select:disabled{background:#F1F4FB;color:var(--muted);cursor:not-allowed}
 
-.two-cols{grid-template-columns:1fr 1fr!important}
-@media(max-width:620px){.two-cols{grid-template-columns:1fr!important}}

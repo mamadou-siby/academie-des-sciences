@@ -9,3 +9,16 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# ============================ DÉBUT MODE TEMPORAIRE ============================
+# Tant que ce bloc est présent, l'adresse /inscription.html affiche le formulaire
+# TEMPORAIRE « à recontacter » (temporaire/inscription-temporaire.html) : sans
+# date ni créneau, le parent est recontacté.
+# POUR REVENIR À LA RÉSERVATION NORMALE : supprimez ce bloc (de « DÉBUT » à
+# « FIN ») puis redéployez. Voir temporaire/LISEZ-MOI.md.
+[[redirects]]
+  from = "/inscription.html"
+  to = "/temporaire/inscription-temporaire.html"
+  status = 200
+  force = true
+# ============================= FIN MODE TEMPORAIRE =============================

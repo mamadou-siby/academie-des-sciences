@@ -24,49 +24,20 @@
   var allNiveaux = [];
   var academie = 'sciences';
   var datesToken = 0;
-  var MODE_RECONTACT = window.INSCRIPTION_MODE === 'recontact';
   var TEXTS = {
     sciences: {
       label: 'Académie des Sciences',
       kicker: 'Atelier découverte · Gratuit',
       title: 'Inscription à l’atelier découverte',
-      lead: MODE_RECONTACT
-        ? 'Inscrivez votre enfant à l’atelier découverte : choisissez un lieu et un niveau, puis renseignez vos coordonnées.'
-        : 'Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
+      lead: 'Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
     },
     langues: {
       label: 'Académie des Langues · Anglais',
       kicker: 'Cours d’essai · Académie des Langues',
       title: 'Réserver un cours d’essai d’anglais',
-      lead: MODE_RECONTACT
-        ? 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu et un niveau, puis renseignez vos coordonnées.'
-        : 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
+      lead: 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
     }
   };
-  // --- Mode temporaire « à recontacter » (voir assets/js/inscription-config.js) ---
-  var RECONTACT = window.INSCRIPTION_MODE === 'recontact';
-  var slotTitleEl = document.getElementById('slot-title');
-  var successTitleEl = document.getElementById('success-title');
-  var successLeadEl = document.getElementById('success-lead');
-  // Niveaux proposés pour l'anglais tant qu'aucun niveau « Anglais… » n'existe dans l'admin
-  var STATIC_LANGUES_NIVEAUX = [
-    { id: 'libre-1', nom: 'Anglais — Maternelle (MS/GS)' },
-    { id: 'libre-2', nom: 'Anglais — Primaire' },
-    { id: 'libre-3', nom: 'Anglais — Collège' },
-    { id: 'libre-4', nom: 'Anglais — Lycée' }
-  ];
-  // Mode temporaire : les champs Date et Créneau ne sont pas affichés. Le parent
-  // apprend qu'il sera recontacté uniquement dans le message de confirmation.
-  function setupRecontactSlots() {
-    [dateSelect, creneauSelect].forEach(function (sel) {
-      sel.removeAttribute('data-field');
-      sel.removeAttribute('required');
-      sel.disabled = true;
-      var group = sel.closest('.form-group');
-      if (group) { group.style.display = 'none'; group.parentElement.classList.add('two-cols'); }
-    });
-    if (slotTitleEl) slotTitleEl.textContent = 'Lieu & niveau';
-  }
   function isEnglishNiveau(n) { return /^\s*anglais/i.test((n && n.nom) || ''); }
   function niveauxForAcademie() {
     return allNiveaux.filter(function (n) { return academie === 'langues' ? isEnglishNiveau(n) : !isEnglishNiveau(n); });
@@ -157,7 +128,6 @@
   }
 
   function resetDates(message) {
-    if (RECONTACT) { setupRecontactSlots(); return; }
     datesToken++;
     dateSelect.disabled = true;
     fillSelect(dateSelect, [], message || 'Choisissez d’abord un niveau', true);
@@ -167,7 +137,6 @@
   // Les dates dépendent du niveau (et du lieu) : l'admin peut réserver une date
   // à un niveau précis, par exemple un atelier d'anglais.
   function refreshDates() {
-    if (RECONTACT) return;
     if (!niveauSelect.value) { resetDates(); return; }
     if (usingFallback) {
       fillSelect(dateSelect, FALLBACK.dates, 'Sélectionner une date', true);
@@ -209,9 +178,8 @@
     if (titleEl) titleEl.textContent = t.title;
     if (leadEl) leadEl.textContent = t.lead;
     var list = niveauxForAcademie();
-    if (RECONTACT && academie === 'langues' && !list.length) list = STATIC_LANGUES_NIVEAUX;
     fillSelect(niveauSelect, list, 'Sélectionner un niveau', false);
-    if (!list.length && !RECONTACT) {
+    if (!list.length) {
       noticeEl.textContent = academie === 'langues'
         ? 'Aucun créneau de cours d’essai d’anglais n’est ouvert pour le moment. Écrivez-nous à contact@aven-co.com : nous vous répondrons dès l’ouverture des prochaines dates.'
         : 'Aucun niveau n’est ouvert pour le moment.';
@@ -327,16 +295,12 @@
     var rows = [
       ['Académie', TEXTS[academie].label],
       ['Lieu', recap.lieu],
-      ['Niveau', recap.niveau]
+      ['Niveau', recap.niveau],
+      ['Date', recap.date],
+      ['Créneau', recap.creneau],
+      ['Élève', recap.eleve],
+      ['Parent', recap.parent]
     ];
-    if (RECONTACT) {
-      if (successTitleEl) successTitleEl.textContent = 'Votre demande est bien reçue !';
-      if (successLeadEl) successLeadEl.textContent = 'Nous vous recontacterons très prochainement pour fixer avec vous la date et le créneau. À très vite !';
-      rows.push(['Date et créneau', 'À fixer avec vous']);
-    } else {
-      rows.push(['Date', recap.date], ['Créneau', recap.creneau]);
-    }
-    rows.push(['Élève', recap.eleve], ['Parent', recap.parent]);
     recapList.innerHTML = rows.map(function (row) {
       return '<li><span>' + escapeHtml(row[0]) + '</span><span>' + escapeHtml(row[1]) + '</span></li>';
     }).join('');
@@ -358,27 +322,25 @@
       telephone_parent: document.getElementById('telephone_parent').value.trim(),
       code_suivi: document.getElementById('code_suivi').value.trim() || null
     };
-    var niveauLibre = niveauSelect.value.indexOf('libre-') === 0;
-    var payload = RECONTACT
-      ? Object.assign({
-          mode: 'recontact',
-          academie: academie,
-          lieu_id: lieuSelect.value,
-          niveau_id: niveauLibre ? null : niveauSelect.value,
-          niveau_libre: niveauLibre ? niveauSelect.options[niveauSelect.selectedIndex].textContent : null
-        }, common)
-      : Object.assign({
-          lieu_id: lieuSelect.value,
-          niveau_id: niveauSelect.value,
-          date_id: dateSelect.value,
-          creneau_id: creneauSelect.value
-        }, common);
+    var payload = {
+      lieu_id: lieuSelect.value,
+      niveau_id: niveauSelect.value,
+      date_id: dateSelect.value,
+      creneau_id: creneauSelect.value,
+      prenom_eleve: common.prenom_eleve,
+      nom_eleve: common.nom_eleve,
+      age_eleve: common.age_eleve,
+      nom_prenom_parent: common.nom_prenom_parent,
+      email_parent: common.email_parent,
+      telephone_parent: common.telephone_parent,
+      code_suivi: common.code_suivi
+    };
 
     var recapBase = {
       lieu: lieuSelect.options[lieuSelect.selectedIndex].textContent,
       niveau: niveauSelect.options[niveauSelect.selectedIndex].textContent,
-      date: RECONTACT ? '' : dateSelect.options[dateSelect.selectedIndex].textContent,
-      creneau: RECONTACT ? '' : creneauSelect.options[creneauSelect.selectedIndex].textContent,
+      date: dateSelect.options[dateSelect.selectedIndex].textContent,
+      creneau: creneauSelect.options[creneauSelect.selectedIndex].textContent,
       eleve: payload.prenom_eleve + ' ' + payload.nom_eleve,
       parent: payload.nom_prenom_parent
     };
@@ -405,7 +367,7 @@
         showSuccess({
           lieu: recapBase.lieu,
           niveau: recapBase.niveau,
-          date: RECONTACT ? '' : formatDate(data.date),
+          date: formatDate(data.date),
           creneau: recapBase.creneau,
           eleve: data.eleve,
           parent: data.parent

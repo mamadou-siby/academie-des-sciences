@@ -1,0 +1,211 @@
+<!doctype html>
+<!--
+  ============================================================================
+  VERSION TEMPORAIRE du formulaire d'inscription — mode « à recontacter »
+  (pas de date ni de créneau : le parent est recontacté).
+  Elle remplace inscription.html tant que la règle de redirection est active
+  dans netlify.toml. Voir temporaire/LISEZ-MOI.md pour revenir à la version normale.
+  ============================================================================
+-->
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inscription à l’atelier découverte — Aven & Co</title>
+<meta name="description" content="Inscrivez votre enfant à l’atelier découverte gratuit : choisissez un lieu, un niveau et une date, puis renseignez vos coordonnées en quelques instants.">
+<link rel="stylesheet" href="/styles.css">
+<style>.two-cols{grid-template-columns:1fr 1fr!important}@media(max-width:620px){.two-cols{grid-template-columns:1fr!important}}</style>
+<!-- seo:start -->
+<link rel="canonical" href="https://aven-co.com/inscription.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#2454FF">
+<meta property="og:site_name" content="Aven &amp; Co">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Inscription à l’atelier découverte — Aven &amp; Co">
+<meta property="og:description" content="Inscrivez votre enfant à l’atelier découverte gratuit : choisissez un lieu, un niveau et une date, puis renseignez vos coordonnées en quelques instants.">
+<meta property="og:url" content="https://aven-co.com/inscription.html">
+<meta property="og:image" content="https://aven-co.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- seo:end -->
+</head>
+<body>
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="/index.html">
+      <span class="brand-mark">✦</span>
+      <span>Aven & Co<small>L’Académie</small></span>
+    </a>
+    <button class="mobile-toggle" aria-label="Ouvrir le menu">☰</button>
+    <nav class="menu">
+      <a href="/anglais.html">Académie des Langues</a>
+      <a href="/cours.html">Académie des Sciences</a>
+      <div class="dropdown">
+        <button class="dropbtn">Ressources pédagogiques ▾</button>
+        <div class="dropdown-panel">
+          <a href="/methodes-pedagogiques.html">Méthodes pédagogiques</a>
+          <a href="/memorisation.html">Mémorisation</a>
+          <a href="/organisation.html">Organisation scolaire</a>
+          <a href="/choisir-ecole.html">Choisir son école</a>
+          <a href="/bien-etre.html">Bien-être scolaire</a>
+          <span class="dropdown-label">Par niveau scolaire</span>
+          <a href="/maternelle.html">Maternelle (MS/GS)</a>
+          <a href="/organisation.html#primaire">Primaire</a>
+          <a href="/organisation.html#college">Collège</a>
+          <a href="/organisation.html#lycee">Lycée &amp; Baccalauréat</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="/index.html">Accueil</a> / Inscription</div>
+    <div class="kicker" id="inscr-kicker">Atelier découverte · Gratuit</div>
+    <h1 class="page-title" id="inscr-title">Inscription à l’atelier découverte</h1>
+    <p class="lead" id="inscr-lead">Inscrivez votre enfant à l’atelier découverte : choisissez un lieu et un niveau, puis renseignez vos coordonnées.</p>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div id="form-api-error" class="form-api-error" style="max-width:720px;margin:0 auto 0">
+      Les disponibilités affichées ci-dessous sont temporaires : la connexion à la base de données n’est pas encore configurée sur cet environnement. Une fois les variables d’environnement Netlify renseignées (voir README-inscription.md), le formulaire utilisera automatiquement les lieux, niveaux et dates réels.
+    </div>
+
+    <div id="form-loading" class="form-loading">Chargement des disponibilités…</div>
+
+    <form id="inscription-form" class="form-card" style="display:none" novalidate>
+      <div class="form-section-title">Quelle académie ?</div>
+      <div class="offer-choice-grid" id="academie-choice" role="group" aria-label="Choix de l’académie">
+        <button type="button" class="offer-choice-card" data-academie="langues" aria-pressed="false">
+          <h3>Académie des Langues</h3>
+          <p>Anglais · de 4 à 18 ans</p>
+        </button>
+        <button type="button" class="offer-choice-card" data-academie="sciences" aria-pressed="false">
+          <h3>Académie des Sciences</h3>
+          <p>Maths, sciences &amp; logique</p>
+        </button>
+      </div>
+      <p class="form-note" id="niveau-notice" style="display:none;margin-top:14px"></p>
+
+      <div class="form-section-title" style="margin-top:30px" id="slot-title">Lieu &amp; niveau</div>
+      <div class="form-grid two-cols">
+        <div class="form-group">
+          <label for="lieu">Lieu *</label>
+          <select id="lieu" data-field required>
+            <option value="">Sélectionner un lieu</option>
+          </select>
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="niveau">Niveau *</label>
+          <select id="niveau" data-field required>
+            <option value="">Sélectionner un niveau</option>
+          </select>
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+      </div>
+
+      <div class="form-section-title">Informations sur l’élève</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="prenom_eleve">Prénom de l’élève *</label>
+          <input type="text" id="prenom_eleve" data-field required autocomplete="given-name">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="nom_eleve">Nom de l’élève *</label>
+          <input type="text" id="nom_eleve" data-field required autocomplete="family-name">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="age_eleve">Âge de l’élève *</label>
+          <input type="text" id="age_eleve" data-field required inputmode="numeric">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+      </div>
+
+      <div class="form-section-title">Informations sur le parent</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="nom_prenom_parent">Nom Prénom du parent *</label>
+          <input type="text" id="nom_prenom_parent" data-field required autocomplete="name">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="email_parent">Email du parent *</label>
+          <input type="email" id="email_parent" data-field required autocomplete="email">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+        <div class="form-group">
+          <label for="telephone_parent">Téléphone du parent *</label>
+          <input type="tel" id="telephone_parent" data-field required autocomplete="tel" placeholder="06 12 34 56 78">
+          <span class="field-error">Ce champ est obligatoire.</span>
+        </div>
+      </div>
+
+      <div class="form-section-title">Code de suivi (optionnel)</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="code_suivi">Code de suivi (si un partenaire vous en a communiqué un)</label>
+          <input type="text" id="code_suivi" placeholder="Laissez vide si vous n’en avez pas">
+        </div>
+      </div>
+
+      <p class="required-note">* Champs obligatoires</p>
+
+      <div class="form-actions">
+        <button type="submit" class="btn primary" id="submit-btn">Valider</button>
+      </div>
+      <p class="form-note">Vos informations sont utilisées uniquement pour le traitement de votre demande d’inscription à l’atelier découverte ou au cours d’essai.</p>
+    </form>
+
+    <div id="form-success" class="form-card form-success" style="display:none">
+      <div class="icon">✓</div>
+      <h2 id="success-title">Votre demande est bien reçue !</h2>
+      <p class="lead" style="margin:0 auto" id="success-lead">Nous vous recontacterons très prochainement pour fixer avec vous la date et le créneau. À très vite !</p>
+      <ul class="recap-list" id="recap-list"></ul>
+      <div class="form-actions" style="margin-top:28px">
+        <a class="btn secondary" href="/index.html" style="width:100%;max-width:320px;text-align:center">Retour à l’accueil</a>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand"><span class="brand-mark">✦</span><span>Aven & Co</span></div>
+        <p>Des ressources pédagogiques simples pour mieux apprendre, mieux s’organiser et accompagner la réussite scolaire.</p>
+      </div>
+      <div><h4>Méthodes</h4>
+        <a href="/methodes-pedagogiques.html">Pédagogies</a>
+        <a href="/memorisation.html">Mémorisation</a>
+        <a href="/memorisation.html">Technique Feynman</a>
+        <a href="/memorisation.html">Pomodoro</a>
+      </div>
+      <div><h4>Par niveau</h4>
+        <a href="/maternelle.html">Maternelle (MS/GS)</a>
+        <a href="/organisation.html#primaire">Primaire</a>
+        <a href="/organisation.html#college">Collège</a>
+        <a href="/organisation.html#lycee">Lycée & Baccalauréat</a>
+      </div>
+      <div><h4>Informations</h4>
+        <a href="/anglais.html">Académie des Langues</a>
+        <a href="/cours.html">Académie des Sciences</a>
+        <a href="/inscription.html">Atelier découverte</a>
+        <a href="/choisir-ecole.html">Choisir son école</a>
+        <a href="/bien-etre.html">Bien-être scolaire</a>
+        <a href="/cgi-cours.html">Conditions générales</a>
+        <a href="/mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 Aven & Co — L’Académie · aven-co.com</div>
+  </div>
+</footer>
+<script src="/app.js"></script>
+<script src="/temporaire/inscription-temporaire.js"></script>
+</body></html>

@@ -57,9 +57,6 @@ create table if not exists inscriptions (
   date_id             bigint references dates_disponibles(id),
   creneau_id          bigint references creneaux(id),
   code_suivi          text,
-  academie            text not null default 'sciences' check (academie in ('sciences', 'langues')),
-  a_recontacter       boolean not null default false,  -- mode temporaire : date à fixer avec le parent
-  niveau_libre        text,                            -- niveau saisi sans ligne dans « niveaux »
   prenom_eleve        text not null,
   nom_eleve           text not null,
   age_eleve           text not null,

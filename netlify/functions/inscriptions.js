@@ -17,109 +17,6 @@ const REQUIRED_FIELDS = [
   'nom_prenom_parent', 'email_parent', 'telephone_parent'
 ];
 
-const REQUIRED_RECONTACT = [
-  'lieu_id', 'prenom_eleve', 'nom_eleve', 'age_eleve',
-  'nom_prenom_parent', 'email_parent', 'telephone_parent'
-];
-
-// MODE TEMPORAIRE « À RECONTACTER » (payload.mode === 'recontact') :
-// pas de date ni de créneau ; la demande est enregistrée avec a_recontacter = true
-// et un e-mail d'alerte part vers contact@aven-co.com. Voir README-inscription.md.
-async function handleRecontact(supabase, payload) {
-  const bad = (msg) => ({ statusCode: 400, headers: cors, body: JSON.stringify({ error: msg }) });
-  for (const field of REQUIRED_RECONTACT) {
-    if (payload[field] === undefined || payload[field] === null || payload[field] === '') {
-      return bad(`Le champ « ${field} » est obligatoire.`);
-    }
-  }
-  if (!payload.niveau_id && !payload.niveau_libre) return bad('Le champ « niveau » est obligatoire.');
-  if (!isValidEmail(payload.email_parent)) return bad('Adresse email invalide.');
-  if (!isValidPhone(payload.telephone_parent)) return bad('Numéro de téléphone invalide.');
-
-  const academie = payload.academie === 'langues' ? 'langues' : 'sciences';
-  const lieuRes = await supabase.from('lieux').select('*').eq('id', payload.lieu_id).eq('actif', true).maybeSingle();
-  if (!lieuRes.data) return bad('Ce lieu n’est plus disponible.');
-
-  let niveauNom = String(payload.niveau_libre || '').trim().slice(0, 80);
-  let niveauId = null;
-  if (payload.niveau_id) {
-    const niveauRes = await supabase.from('niveaux').select('*').eq('id', payload.niveau_id).eq('actif', true).maybeSingle();
-    if (!niveauRes.data) return bad('Ce niveau n’est plus disponible.');
-    niveauNom = niveauRes.data.nom;
-    niveauId = niveauRes.data.id;
-  }
-
-  const base = {
-    lieu_id: payload.lieu_id,
-    niveau_id: niveauId,
-    date_id: null,
-    creneau_id: null,
-    prenom_eleve: payload.prenom_eleve,
-    nom_eleve: payload.nom_eleve,
-    age_eleve: String(payload.age_eleve),
-    nom_prenom_parent: payload.nom_prenom_parent,
-    email_parent: payload.email_parent,
-    telephone_parent: payload.telephone_parent,
-    code_suivi: payload.code_suivi || null,
-    statut: 'Nouvelle'
-  };
-  const extended = Object.assign({}, base, {
-    academie: academie,
-    a_recontacter: true,
-    niveau_libre: niveauId ? null : niveauNom
-  });
-
-  let saved = null;
-  let dbError = null;
-  let res = await supabase.from('inscriptions').insert(extended).select().single();
-  if (res.error && /academie|a_recontacter|niveau_libre/i.test(res.error.message || '')) {
-    // La migration supabase-migration-recontact.sql n'est pas encore exécutée :
-    // on enregistre quand même la demande (sans les colonnes de classement).
-    console.error('Colonnes de recontact absentes — exécutez supabase-migration-recontact.sql :', res.error.message);
-    res = await supabase.from('inscriptions').insert(base).select().single();
-  }
-  if (res.error) { dbError = res.error.message; console.error('Enregistrement de la demande échoué :', dbError); }
-  else saved = res.data;
-
-  const { sendRecontactEmails } = require('./_send-inscription-email');
-  const mail = await sendRecontactEmails({
-    academie: academie,
-    lieu: lieuRes.data.nom,
-    niveau: niveauNom,
-    prenom_eleve: payload.prenom_eleve,
-    nom_eleve: payload.nom_eleve,
-    age_eleve: String(payload.age_eleve),
-    nom_prenom_parent: payload.nom_prenom_parent,
-    email_parent: payload.email_parent,
-    telephone_parent: payload.telephone_parent,
-    code_suivi: payload.code_suivi || null,
-    saved: !!saved,
-    dbError: dbError
-  });
-
-  // Rien n'est perdu tant que la demande est en base OU que l'alerte est partie.
-  if (!saved && !mail.adminSent) {
-    return {
-      statusCode: 500,
-      headers: cors,
-      body: JSON.stringify({ error: 'Votre demande n’a pas pu être enregistrée pour le moment. Merci de nous écrire à contact@aven-co.com.' })
-    };
-  }
-  return {
-    statusCode: 201,
-    headers: cors,
-    body: JSON.stringify({
-      id: saved ? saved.id : null,
-      recontact: true,
-      academie: academie,
-      lieu: lieuRes.data.nom,
-      niveau: niveauNom,
-      eleve: `${payload.prenom_eleve} ${payload.nom_eleve}`,
-      parent: payload.nom_prenom_parent
-    })
-  };
-}
-
 // POST /api/inscriptions        -> enregistre une demande (public)
 // GET  /api/inscriptions        -> liste + filtres (admin uniquement)
 // PATCH /api/inscriptions       -> met à jour le statut (admin) { id, statut }
@@ -131,8 +28,6 @@ exports.handler = async (event) => {
 
     if (event.httpMethod === 'POST') {
       const payload = event.body ? JSON.parse(event.body) : {};
-
-      if (payload.mode === 'recontact') return await handleRecontact(supabase, payload);
 
       for (const field of REQUIRED_FIELDS) {
         if (payload[field] === undefined || payload[field] === null || payload[field] === '') {
@@ -231,7 +126,7 @@ exports.handler = async (event) => {
       if (params.lieu_id) query = query.eq('lieu_id', params.lieu_id);
       if (params.niveau_id) query = query.eq('niveau_id', params.niveau_id);
       if (params.date_id) query = query.eq('date_id', params.date_id);
-      // Demandes en attente d'être recontactées (aucune date choisie)
+      // Demandes sans date choisie (mode temporaire « à recontacter », voir temporaire/LISEZ-MOI.md)
       if (params.a_recontacter) query = query.is('date_id', null);
 
       const { data, error } = await query;
