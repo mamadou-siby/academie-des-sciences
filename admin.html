@@ -110,7 +110,9 @@
           <select id="filter-statut"><option value="">Tous les statuts</option><option>Nouvelle</option><option>Contactée</option><option>Confirmée</option><option>Annulée</option></select>
           <select id="filter-lieu"><option value="">Tous les lieux</option></select>
           <select id="filter-niveau"><option value="">Tous les niveaux</option></select>
+          <select id="filter-recontact"><option value="">Toutes les demandes</option><option value="1">À recontacter (date à fixer)</option></select>
         </div>
+        <p class="form-note" id="recontact-count" style="display:none;margin:0 0 14px;font-weight:700;color:var(--ink)"></p>
         <div class="admin-table-wrap">
           <table class="admin-table"><thead><tr><th>Date création</th><th>Lieu</th><th>Niveau</th><th>Séance</th><th>Créneau</th><th>Élève</th><th>Parent</th><th>Email</th><th>Téléphone</th><th>Code suivi</th><th>Statut</th></tr></thead>
           <tbody id="inscriptions-tbody"></tbody></table>

@@ -307,26 +307,40 @@
     if (statut) params.set('statut', statut);
     if (lieu) params.set('lieu_id', lieu);
     if (niveau) params.set('niveau_id', niveau);
+    var recontactFilter = document.getElementById('filter-recontact');
+    if (recontactFilter && recontactFilter.value) params.set('a_recontacter', '1');
 
     authFetch('/inscriptions?' + params.toString())
       .then(function (items) {
         var tbody = document.getElementById('inscriptions-tbody');
+        // Compteur des parents à recontacter (aucune date choisie, pas encore traités)
+        var waiting = items.filter(function (i) { return !i.date_id && i.statut === 'Nouvelle'; }).length;
+        var countEl = document.getElementById('recontact-count');
+        if (countEl) {
+          countEl.style.display = waiting ? 'block' : 'none';
+          countEl.textContent = waiting + (waiting > 1 ? ' parents attendent' : ' parent attend') + ' d’être recontacté' + (waiting > 1 ? 's' : '') + ' pour fixer une date.';
+        }
         if (!items.length) {
           tbody.innerHTML = '<tr><td colspan="11" class="admin-empty">Aucune demande.</td></tr>';
           return;
         }
         tbody.innerHTML = items.map(function (item) {
           var lieuNom = item.lieux ? item.lieux.nom : '—';
-          var niveauNom = item.niveaux ? item.niveaux.nom : '—';
+          var niveauNom = item.niveaux ? item.niveaux.nom : (item.niveau_libre || '—');
+          var academieTag = item.academie === 'langues' ? '<br><small style="color:var(--muted)">Académie des Langues</small>' : '';
+          var aRecontacter = !item.date_id;
           var dateNom = item.dates_disponibles ? item.dates_disponibles.date : '—';
           var creneauNom = item.creneaux ? item.creneaux.nom : '—';
+          var dateCell = aRecontacter
+            ? '<span style="display:inline-block;background:#FFF1D6;color:#8A5A00;border-radius:999px;padding:3px 10px;font-weight:700;font-size:12px;white-space:nowrap">À recontacter</span>'
+            : dateNom;
           var created = new Date(item.date_creation).toLocaleDateString('fr-FR');
           return '<tr data-id="' + item.id + '">' +
             '<td>' + created + '</td>' +
             '<td>' + escapeHtml(lieuNom) + '</td>' +
-            '<td>' + escapeHtml(niveauNom) + '</td>' +
-            '<td>' + dateNom + '</td>' +
-            '<td>' + escapeHtml(creneauNom) + '</td>' +
+            '<td>' + escapeHtml(niveauNom) + academieTag + '</td>' +
+            '<td>' + dateCell + '</td>' +
+            '<td>' + (aRecontacter ? '<span style="color:var(--muted)">à fixer</span>' : escapeHtml(creneauNom)) + '</td>' +
             '<td>' + escapeHtml(item.prenom_eleve + ' ' + item.nom_eleve) + ' (' + escapeHtml(item.age_eleve) + ' ans)</td>' +
             '<td>' + escapeHtml(item.nom_prenom_parent) + '</td>' +
             '<td>' + escapeHtml(item.email_parent) + '</td>' +
@@ -350,7 +364,7 @@
       .catch(function (err) { alert(err.message); });
   }
 
-  ['filter-statut', 'filter-lieu', 'filter-niveau'].forEach(function (id) {
+  ['filter-statut', 'filter-lieu', 'filter-niveau', 'filter-recontact'].forEach(function (id) {
     document.getElementById(id).addEventListener('change', loadInscriptions);
   });
 

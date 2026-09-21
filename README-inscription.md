@@ -105,3 +105,41 @@ modification de la base de données n'est nécessaire : la séparation repose su
 Les dates proposées dépendent désormais du **niveau** (et du lieu) choisis.
 Sans niveau d'anglais actif, le parent voit un message l'invitant à écrire à
 contact@aven-co.com.
+
+
+## Mode temporaire « à recontacter » (sans date ni créneau)
+
+Tant que les dates de cours d'essai / d'atelier ne sont pas ouvertes, le
+formulaire fonctionne en **mode « à recontacter »** (réglage dans
+`assets/js/inscription-config.js`, `window.INSCRIPTION_MODE = 'recontact'`) :
+
+- les listes **Date** et **Créneau** sont grisées (« À fixer avec vous ») ;
+- le parent remplit le reste (académie, lieu, niveau, élève, parent), clique sur
+  **Valider** et voit : *« Nous vous recontacterons très prochainement pour fixer
+  avec vous la date et le créneau. »* ;
+- un **e-mail d'alerte part vers contact@aven-co.com** (adresse modifiable avec la
+  variable Netlify `CONTACT_EMAIL`), avec le téléphone et l'e-mail du parent ;
+  répondre à cet e-mail écrit directement au parent (`reply-to`) ;
+- le parent reçoit un e-mail d'accusé de réception ;
+- la demande apparaît dans **l'admin → Inscriptions**, avec le badge
+  « À recontacter » et un compteur en haut de la liste. Filtre dédié :
+  « À recontacter (date à fixer) ». Passez le statut à « Contactée » puis
+  « Confirmée » au fil du traitement.
+
+Prérequis (une seule fois) :
+
+1. Exécuter `supabase-migration-recontact.sql` dans Supabase (SQL Editor) **avant**
+   de déployer. Sans cela la demande n'est pas perdue — l'e-mail d'alerte part quand
+   même — mais elle n'apparaît pas dans l'admin.
+2. Variable `RESEND_API_KEY` déjà utilisée pour les e-mails de confirmation
+   (sans elle, aucun e-mail n'est envoyé : les messages sont seulement écrits dans les
+   logs Netlify).
+3. Facultatif : `CONTACT_EMAIL` (destinataire des alertes, par défaut
+   contact@aven-co.com) et `SITE_URL` (pour le lien vers l'admin dans l'e-mail).
+
+**Pour rouvrir les réservations en ligne** : dans `assets/js/inscription-config.js`,
+remplacez `'recontact'` par `'creneaux'` et redéployez. Rien d'autre à modifier.
+
+En mode « à recontacter », le niveau d'anglais est choisi parmi quatre niveaux
+proposés par le formulaire (Maternelle, Primaire, Collège, Lycée) tant qu'aucun niveau
+« Anglais… » n'existe dans l'admin ; les niveaux de l'admin sont utilisés dès qu'ils existent.

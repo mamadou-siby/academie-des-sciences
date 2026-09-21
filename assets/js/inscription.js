@@ -38,6 +38,36 @@
       lead: 'Découvrez l’École d’Anglais avant de vous engager : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.'
     }
   };
+  // --- Mode temporaire « à recontacter » (voir assets/js/inscription-config.js) ---
+  var RECONTACT = window.INSCRIPTION_MODE === 'recontact';
+  var slotTitleEl = document.getElementById('slot-title');
+  var recontactNoticeEl = document.getElementById('recontact-notice');
+  var successTitleEl = document.getElementById('success-title');
+  var successLeadEl = document.getElementById('success-lead');
+  // Niveaux proposés pour l'anglais tant qu'aucun niveau « Anglais… » n'existe dans l'admin
+  var STATIC_LANGUES_NIVEAUX = [
+    { id: 'libre-1', nom: 'Anglais — Maternelle (MS/GS)' },
+    { id: 'libre-2', nom: 'Anglais — Primaire' },
+    { id: 'libre-3', nom: 'Anglais — Collège' },
+    { id: 'libre-4', nom: 'Anglais — Lycée' }
+  ];
+  if (RECONTACT) {
+    TEXTS.sciences.lead = 'Renseignez votre demande d’atelier découverte : nous vous recontacterons pour fixer avec vous la date et le créneau.';
+    TEXTS.langues.lead = 'Renseignez votre demande de cours d’essai : nous vous recontacterons pour fixer avec vous la date et le créneau.';
+  }
+  function setupRecontactSlots() {
+    [dateSelect, creneauSelect].forEach(function (sel) {
+      sel.removeAttribute('data-field');
+      sel.removeAttribute('required');
+      sel.disabled = true;
+    });
+    fillSelect(dateSelect, [], 'À fixer', true);
+    fillSelect(creneauSelect, [], 'À fixer', false);
+    var dl = document.querySelector('label[for="date"]'); if (dl) dl.textContent = 'Date';
+    var cl = document.querySelector('label[for="creneau"]'); if (cl) cl.textContent = 'Créneau';
+    if (slotTitleEl) slotTitleEl.textContent = 'Date & créneau';
+    if (recontactNoticeEl) recontactNoticeEl.style.display = 'block';
+  }
   function isEnglishNiveau(n) { return /^\s*anglais/i.test((n && n.nom) || ''); }
   function niveauxForAcademie() {
     return allNiveaux.filter(function (n) { return academie === 'langues' ? isEnglishNiveau(n) : !isEnglishNiveau(n); });
@@ -128,6 +158,7 @@
   }
 
   function resetDates(message) {
+    if (RECONTACT) { setupRecontactSlots(); return; }
     datesToken++;
     dateSelect.disabled = true;
     fillSelect(dateSelect, [], message || 'Choisissez d’abord un niveau', true);
@@ -137,6 +168,7 @@
   // Les dates dépendent du niveau (et du lieu) : l'admin peut réserver une date
   // à un niveau précis, par exemple un atelier d'anglais.
   function refreshDates() {
+    if (RECONTACT) return;
     if (!niveauSelect.value) { resetDates(); return; }
     if (usingFallback) {
       fillSelect(dateSelect, FALLBACK.dates, 'Sélectionner une date', true);
@@ -178,8 +210,9 @@
     if (titleEl) titleEl.textContent = t.title;
     if (leadEl) leadEl.textContent = t.lead;
     var list = niveauxForAcademie();
+    if (RECONTACT && academie === 'langues' && !list.length) list = STATIC_LANGUES_NIVEAUX;
     fillSelect(niveauSelect, list, 'Sélectionner un niveau', false);
-    if (!list.length) {
+    if (!list.length && !RECONTACT) {
       noticeEl.textContent = academie === 'langues'
         ? 'Aucun créneau de cours d’essai d’anglais n’est ouvert pour le moment. Écrivez-nous à contact@aven-co.com : nous vous répondrons dès l’ouverture des prochaines dates.'
         : 'Aucun niveau n’est ouvert pour le moment.';
@@ -292,15 +325,20 @@
   function showSuccess(recap) {
     form.style.display = 'none';
     successEl.style.display = 'block';
-    recapList.innerHTML = [
+    var rows = [
       ['Académie', TEXTS[academie].label],
       ['Lieu', recap.lieu],
-      ['Niveau', recap.niveau],
-      ['Date', recap.date],
-      ['Créneau', recap.creneau],
-      ['Élève', recap.eleve],
-      ['Parent', recap.parent]
-    ].map(function (row) {
+      ['Niveau', recap.niveau]
+    ];
+    if (RECONTACT) {
+      if (successTitleEl) successTitleEl.textContent = 'Votre demande est bien reçue !';
+      if (successLeadEl) successLeadEl.textContent = 'Nous vous recontacterons très prochainement pour fixer avec vous la date et le créneau. À très vite !';
+      rows.push(['Date et créneau', 'À fixer avec vous']);
+    } else {
+      rows.push(['Date', recap.date], ['Créneau', recap.creneau]);
+    }
+    rows.push(['Élève', recap.eleve], ['Parent', recap.parent]);
+    recapList.innerHTML = rows.map(function (row) {
       return '<li><span>' + escapeHtml(row[0]) + '</span><span>' + escapeHtml(row[1]) + '</span></li>';
     }).join('');
   }
@@ -312,11 +350,7 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours…';
 
-    var payload = {
-      lieu_id: lieuSelect.value,
-      niveau_id: niveauSelect.value,
-      date_id: dateSelect.value,
-      creneau_id: creneauSelect.value,
+    var common = {
       prenom_eleve: document.getElementById('prenom_eleve').value.trim(),
       nom_eleve: document.getElementById('nom_eleve').value.trim(),
       age_eleve: document.getElementById('age_eleve').value.trim(),
@@ -325,12 +359,27 @@
       telephone_parent: document.getElementById('telephone_parent').value.trim(),
       code_suivi: document.getElementById('code_suivi').value.trim() || null
     };
+    var niveauLibre = niveauSelect.value.indexOf('libre-') === 0;
+    var payload = RECONTACT
+      ? Object.assign({
+          mode: 'recontact',
+          academie: academie,
+          lieu_id: lieuSelect.value,
+          niveau_id: niveauLibre ? null : niveauSelect.value,
+          niveau_libre: niveauLibre ? niveauSelect.options[niveauSelect.selectedIndex].textContent : null
+        }, common)
+      : Object.assign({
+          lieu_id: lieuSelect.value,
+          niveau_id: niveauSelect.value,
+          date_id: dateSelect.value,
+          creneau_id: creneauSelect.value
+        }, common);
 
     var recapBase = {
       lieu: lieuSelect.options[lieuSelect.selectedIndex].textContent,
       niveau: niveauSelect.options[niveauSelect.selectedIndex].textContent,
-      date: dateSelect.options[dateSelect.selectedIndex].textContent,
-      creneau: creneauSelect.options[creneauSelect.selectedIndex].textContent,
+      date: RECONTACT ? '' : dateSelect.options[dateSelect.selectedIndex].textContent,
+      creneau: RECONTACT ? '' : creneauSelect.options[creneauSelect.selectedIndex].textContent,
       eleve: payload.prenom_eleve + ' ' + payload.nom_eleve,
       parent: payload.nom_prenom_parent
     };
@@ -357,7 +406,7 @@
         showSuccess({
           lieu: recapBase.lieu,
           niveau: recapBase.niveau,
-          date: formatDate(data.date),
+          date: RECONTACT ? '' : formatDate(data.date),
           creneau: recapBase.creneau,
           eleve: data.eleve,
           parent: data.parent
