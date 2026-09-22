@@ -70,8 +70,9 @@ def block(path, s):
         lines.append('<meta name="google-site-verification" content="%s">' % GOOGLE_SITE_VERIFICATION)
     if path in NOINDEX and 'name="robots"' not in s:
         lines.append('<meta name="robots" content="noindex, follow">')
-    lines.append('<link rel="icon" href="/favicon.ico" sizes="any">')
+    lines.append('<link rel="icon" href="/favicon.ico" sizes="48x48">')
     lines.append('<link rel="icon" href="/favicon.svg" type="image/svg+xml">')
+    lines.append('<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">')
     lines.append('<link rel="apple-touch-icon" href="/apple-touch-icon.png">')
     lines.append('<meta name="theme-color" content="#2454FF">')
     lines.append('<meta property="og:site_name" content="%s">' % html.escape(SITE_NAME))
