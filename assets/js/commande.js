@@ -199,12 +199,12 @@
       $('recap-duree-row').style.display = 'flex';
       $('recap-duree').textContent = state.formule.duree;
       $('recap-type-paiement').textContent = 'Paiement mensuel récurrent (10 mensualités)';
-      $('recap-total-label').textContent = 'Montant payé immédiatement';
+      $('recap-total-label').textContent = 'Montant débité aujourd’hui';
       $('recap-total-amount').textContent = (state.formule.acompte + state.formule.prix) + ' €';
       $('recap-abonnement-note').style.display = 'block';
       $('recap-abonnement-note').textContent =
-        'Détail : ' + state.formule.acompte + ' € d’acompte + ' + state.formule.prix + ' € (1re mensualité), ' +
-        'puis ' + state.formule.prix + ' €/mois pendant les 9 mois suivants. Aucun renouvellement automatique au-delà des 10 mensualités.';
+        'Détail : ' + state.formule.acompte + ' € d’acompte + ' + state.formule.prix + ' € (1re mensualité). ' +
+        'Il y aura ensuite 9 mensualités supplémentaires de ' + state.formule.prix + ' €, prélevées automatiquement chaque mois. Aucun renouvellement automatique au-delà des 10 mensualités.';
     }
   }
 
