@@ -18,15 +18,8 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
-# ============================ DÉBUT MODE TEMPORAIRE ============================
-# Tant que ce bloc est présent, l'adresse /inscription.html affiche le formulaire
-# TEMPORAIRE « à recontacter » (temporaire/inscription-temporaire.html) : sans
-# date ni créneau, le parent est recontacté.
-# POUR REVENIR À LA RÉSERVATION NORMALE : supprimez ce bloc (de « DÉBUT » à
-# « FIN ») puis redéployez. Voir temporaire/LISEZ-MOI.md.
-[[redirects]]
-  from = "/inscription.html"
-  to = "/temporaire/inscription-temporaire.html"
-  status = 200
-  force = true
-# ============================= FIN MODE TEMPORAIRE =============================
+# ---- Mode temporaire « à recontacter » (formulaire d'inscription) ----
+# inscription.html EST directement la version temporaire (pas de redirection ici :
+# une redirection s'est révélée peu fiable). La version normale, avec Date et
+# Créneau, est archivée dans normal/inscription-normale.html. Voir
+# temporaire/LISEZ-MOI.md pour la remettre en place le moment venu.

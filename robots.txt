@@ -3,5 +3,6 @@ Allow: /
 Disallow: /admin.html
 Disallow: /api/
 Disallow: /temporaire/
+Disallow: /normal/
 
 Sitemap: https://aven-co.com/sitemap.xml

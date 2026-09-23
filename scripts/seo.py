@@ -22,7 +22,7 @@ GOOGLE_SITE_VERIFICATION = 'MgDyUEdJKSrZh3wK7XEgM6jIGTlDqUgGj0k3wuBo30s'
 GUIDE_FOLDERS = ['methodes-pedagogiques', 'memorisation', 'organisation', 'choisir-ecole', 'bien-etre', 'maternelle', 'anglais']
 NOINDEX = {'admin.html', 'commande.html', 'inscription-confirmee.html'}   # pages privées / transactionnelles
 SKIP = {'admin.html'}
-TEMPORARY = {'temporaire/inscription-temporaire.html': 'inscription.html'}  # page temporaire : canonique = page normale
+TEMPORARY = {}  # plus utilisé : inscription.html EST directement la page live (voir temporaire/LISEZ-MOI.md)
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(root)

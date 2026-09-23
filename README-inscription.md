@@ -109,7 +109,8 @@ contact@aven-co.com.
 
 ## Mode temporaire « à recontacter »
 
-Une version **temporaire** du formulaire (sans date ni créneau, le parent est
-recontacté) existe **séparément** de la version normale décrite ci-dessus.
-Tous ses fichiers, leur activation et leur retrait sont décrits dans
+Le site utilise actuellement une version **temporaire** du formulaire (sans date
+ni créneau, le parent est recontacté) : c'est `inscription.html` lui-même, à la
+racine. La version normale décrite ci-dessus est archivée dans
+`normal/inscription-normale.html`. Détails, activation et retour à la normale :
 **`temporaire/LISEZ-MOI.md`**.

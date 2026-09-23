@@ -1,10 +1,19 @@
 <!doctype html>
+<!--
+  Page LIVE d'inscription — VERSION TEMPORAIRE « à recontacter » (sans Date ni
+  Créneau ; le parent est recontacté). Script : assets/js/inscription-temporaire.js
+  La version normale (avec Date et Créneau) est archivée dans normal/inscription-normale.html.
+  Pour revenir à la normale : voir temporaire/LISEZ-MOI.md.
+-->
+
+
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inscription à l’atelier découverte — Aven & Co</title>
 <meta name="description" content="Inscrivez votre enfant à l’atelier découverte gratuit : choisissez un lieu, un niveau et une date, puis renseignez vos coordonnées en quelques instants.">
 <link rel="stylesheet" href="styles.css">
+<style>.two-cols{grid-template-columns:1fr 1fr!important}@media(max-width:620px){.two-cols{grid-template-columns:1fr!important}}</style>
 <!-- seo:start -->
 <link rel="canonical" href="https://aven-co.com/inscription.html">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -57,7 +66,7 @@
     <div class="breadcrumb"><a href="index.html">Accueil</a> / Inscription</div>
     <div class="kicker" id="inscr-kicker">Atelier découverte · Gratuit</div>
     <h1 class="page-title" id="inscr-title">Inscription à l’atelier découverte</h1>
-    <p class="lead" id="inscr-lead">Réservez une séance découverte pour votre enfant : choisissez un lieu, un niveau, une date et un créneau, puis renseignez vos coordonnées.</p>
+    <p class="lead" id="inscr-lead">Inscrivez votre enfant à l’atelier découverte : choisissez un lieu et un niveau, puis renseignez vos coordonnées.</p>
   </div></section>
 
   <section class="section"><div class="container">
@@ -79,10 +88,9 @@
           <p>Maths, sciences &amp; logique</p>
         </button>
       </div>
-      <p class="form-note" id="niveau-notice" style="display:none;margin-top:14px"></p>
 
-      <div class="form-section-title" style="margin-top:30px">Créneau souhaité</div>
-      <div class="form-grid four">
+      <div class="form-section-title" style="margin-top:30px" id="slot-title">Lieu &amp; niveau</div>
+      <div class="form-grid two-cols">
         <div class="form-group">
           <label for="lieu">Lieu *</label>
           <select id="lieu" data-field required>
@@ -94,20 +102,6 @@
           <label for="niveau">Niveau *</label>
           <select id="niveau" data-field required>
             <option value="">Sélectionner un niveau</option>
-          </select>
-          <span class="field-error">Ce champ est obligatoire.</span>
-        </div>
-        <div class="form-group">
-          <label for="date">Date *</label>
-          <select id="date" data-field required disabled>
-            <option value="">Choisissez d’abord un niveau</option>
-          </select>
-          <span class="field-error">Ce champ est obligatoire.</span>
-        </div>
-        <div class="form-group">
-          <label for="creneau">Créneau *</label>
-          <select id="creneau" data-field required disabled>
-            <option value="">Sélectionnez d’abord une date</option>
           </select>
           <span class="field-error">Ce champ est obligatoire.</span>
         </div>
@@ -169,8 +163,8 @@
 
     <div id="form-success" class="form-card form-success" style="display:none">
       <div class="icon">✓</div>
-      <h2>Votre créneau est confirmé !</h2>
-      <p class="lead" style="margin:0 auto">Nous vous attendons à la date et au créneau choisis. À très vite !</p>
+      <h2 id="success-title">Votre demande est bien reçue !</h2>
+      <p class="lead" style="margin:0 auto" id="success-lead">Nous vous recontacterons très prochainement pour fixer avec vous la date et le créneau. À très vite !</p>
       <ul class="recap-list" id="recap-list"></ul>
       <div class="form-actions" style="margin-top:28px">
         <a class="btn secondary" href="index.html" style="width:100%;max-width:320px;text-align:center">Retour à l’accueil</a>
@@ -212,5 +206,5 @@
   </div>
 </footer>
 <script src="app.js"></script>
-<script src="assets/js/inscription.js"></script>
+<script src="assets/js/inscription-temporaire.js"></script>
 </body></html>
